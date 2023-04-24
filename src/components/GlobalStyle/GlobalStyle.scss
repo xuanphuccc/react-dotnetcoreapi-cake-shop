@@ -1,0 +1,639 @@
+@import "normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,200;1,300;1,400;1,500;1,600&family=Lexend+Mega:wght@100;200;300;400;500;600;700;800&display=swap");
+
+:root {
+    --primary-font: "Inter", sans-serif;
+    --secondary-font: "Fraunces", serif;
+    --third-font: "Lexend Mega", sans-serif;
+    --primary-color: #444444;
+    --text-primary-color: #444444;
+    --text-black-color: #000;
+    --text-white-color: #fff;
+    --text-gray-color: #6f6f6f;
+    --border-color: #444;
+    --bg-white: #fff;
+    --bg-black: #000;
+    --bg-light-gray: rgb(246 246 246/1);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--text-primary-color);
+    font-family: var(--primary-font);
+}
+
+// ----- Button -----
+.btn {
+    min-width: 150px;
+    background: var(--bg-white);
+    color: var(--text-primary-color);
+    font-family: var(--third-font);
+    font-weight: 500;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    padding: 16px 24px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+
+    &:hover {
+        background-color: rgb(242 242 242);
+    }
+}
+
+.btn.btn-sm {
+    padding: 8px 14px;
+}
+
+.btn.btn-link {
+    position: relative;
+    min-width: 10px;
+    padding: 4px 8px;
+    font-size: 1.4rem;
+    color: var(--text-gray-color);
+    background-color: transparent;
+    border: none;
+    text-transform: initial;
+    font-family: var(--primary-font);
+
+    &:hover {
+        color: var(--text-black-color);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 2px;
+        display: inline-block;
+        width: 80%;
+        height: 1px;
+        background-color: var(--text-gray-color);
+        opacity: 0.5;
+        transition: all 0.4s ease;
+    }
+    &:hover::after {
+        background-color: var(--text-black-color);
+        opacity: 1;
+    }
+}
+
+.btn.btn-dark {
+    background-color: var(--primary-color);
+    color: var(--text-white-color);
+
+    &:hover {
+        background-color: var(--bg-black);
+        border-color: var(--bg-black);
+    }
+}
+// ----- End Button -----
+
+// ----- Size -----
+.h-100 {
+    height: 100%;
+}
+.w-100 {
+    width: 100%;
+}
+// ----- End Size -----
+
+// ----- Border -----
+.border {
+    border: 1px solid var(--border-color);
+}
+.border-x {
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+.border-y {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+.border-start {
+    border-left: 1px solid var(--border-color);
+}
+.border-end {
+    border-right: 1px solid var(--border-color);
+}
+.border-top {
+    border-top: 1px solid var(--border-color);
+}
+.border-bottom {
+    border-bottom: 1px solid var(--border-color);
+}
+// ----- End Border -----
+
+// ----- Space -----
+// Padding
+.px-64 {
+    padding-left: 64px;
+    padding-right: 64px;
+}
+.px-32 {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+.py-64 {
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+.py-32 {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.px-1 {
+    padding: 0 4px;
+}
+.px-2 {
+    padding: 0 8px;
+}
+.px-3 {
+    padding: 0 12px;
+}
+.px-4 {
+    padding: 0 16px;
+}
+.px-5 {
+    padding: 0 24px;
+}
+
+.ps-1 {
+    padding-left: 4px;
+}
+.ps-2 {
+    padding-left: 8px;
+}
+.ps-3 {
+    padding-left: 12px;
+}
+.ps-4 {
+    padding-left: 16px;
+}
+.ps-5 {
+    padding-left: 24px;
+}
+
+.pe-1 {
+    padding-right: 4px;
+}
+.pe-2 {
+    padding-right: 8px;
+}
+.pe-3 {
+    padding-right: 12px;
+}
+.pe-4 {
+    padding-right: 16px;
+}
+.pe-5 {
+    padding-right: 24px;
+}
+
+.pt-1 {
+    padding-top: 4px;
+}
+.pt-2 {
+    padding-top: 8px;
+}
+.pt-3 {
+    padding-top: 12px;
+}
+.pt-4 {
+    padding-top: 16px;
+}
+.pt-5 {
+    padding-top: 24px;
+}
+
+.pb-1 {
+    padding-bottom: 4px;
+}
+.pb-2 {
+    padding-bottom: 8px;
+}
+.pb-3 {
+    padding-bottom: 12px;
+}
+.pb-4 {
+    padding-bottom: 16px;
+}
+.pb-5 {
+    padding-bottom: 24px;
+}
+
+// Margin
+.mt-64 {
+    margin-top: 64px;
+}
+.mb-64 {
+    margin-bottom: 64px;
+}
+.mt-32 {
+    margin-top: 32px;
+}
+.mb-32 {
+    margin-bottom: 32px;
+}
+
+.mx-1 {
+    margin: 0 4px;
+}
+.mx-2 {
+    margin: 0 8px;
+}
+.mx-3 {
+    margin: 0 12px;
+}
+.mx-4 {
+    margin: 0 16px;
+}
+.mx-5 {
+    margin: 0 24px;
+}
+
+.ms-1 {
+    margin-left: 4px;
+}
+.ms-2 {
+    margin-left: 8px;
+}
+.ms-3 {
+    margin-left: 12px;
+}
+.ms-4 {
+    margin-left: 16px;
+}
+.ms-5 {
+    margin-left: 24px;
+}
+
+.me-1 {
+    margin-right: 4px;
+}
+.me-2 {
+    margin-right: 8px;
+}
+.me-3 {
+    margin-right: 12px;
+}
+.me-4 {
+    margin-right: 16px;
+}
+.me-5 {
+    margin-right: 24px;
+}
+
+.mt-1 {
+    margin-top: 4px;
+}
+.mt-2 {
+    margin-top: 8px;
+}
+.mt-3 {
+    margin-top: 12px;
+}
+.mt-4 {
+    margin-top: 16px;
+}
+.mt-5 {
+    margin-top: 24px;
+}
+
+.mb-1 {
+    margin-bottom: 4px;
+}
+.mb-2 {
+    margin-bottom: 8px;
+}
+.mb-3 {
+    margin-bottom: 12px;
+}
+.mb-4 {
+    margin-bottom: 16px;
+}
+.mb-5 {
+    margin-bottom: 24px;
+}
+// ----- End Space -----
+
+// ----- Flex -----
+.d-none {
+    display: none;
+}
+.d-block {
+    display: block;
+}
+.d-flex {
+    display: flex;
+}
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.d-inline-flex {
+    display: inline-flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+.justify-start {
+    justify-content: flex-end;
+}
+.justify-end {
+    justify-content: flex-end;
+}
+.justify-space-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+// ----- End Flex -----
+
+// ----- Text -----
+.font-primary {
+    font-family: var(--primary-font);
+}
+.font-secondary {
+    font-family: var(--secondary-font);
+}
+
+.text-primary {
+    color: var(--text-primary-color);
+
+    &:hover {
+        color: var(--text-primary-color);
+    }
+}
+
+.text-link {
+    color: var(--text-primary-color);
+}
+.text-link:hover {
+    text-decoration: underline;
+    color: var(--text-black-color);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-italic {
+    font-style: italic;
+}
+.text-uppercase {
+    text-transform: uppercase;
+}
+.text-decoration-none {
+    text-decoration: none;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.fs-48 {
+    font-size: 4.8rem !important;
+}
+.fs-42 {
+    font-size: 4.2rem !important;
+}
+.fs-24 {
+    font-size: 2.4rem !important;
+}
+.fs-20 {
+    font-size: 2rem !important;
+}
+.fs-18 {
+    font-size: 1.8rem !important;
+}
+.fs-16 {
+    font-size: 1.6rem !important;
+}
+.fs-14 {
+    font-size: 1.4rem !important;
+}
+.fs-13 {
+    font-size: 1.3rem !important;
+}
+.fs-12 {
+    font-size: 1.2rem !important;
+}
+
+.fw-100 {
+    font-weight: 100;
+}
+.fw-200 {
+    font-weight: 200;
+}
+.fw-300 {
+    font-weight: 300;
+}
+.fw-400 {
+    font-weight: 400;
+}
+.fw-500 {
+    font-weight: 500;
+}
+.fw-600 {
+    font-weight: 600;
+}
+// ----- End Text -----
+
+// ----- Cusor -----
+.cursor-pointer {
+    cursor: pointer;
+}
+// ----- End Cusor -----
+
+// ----- Position -----
+.relative {
+    position: relative;
+}
+.absolute {
+    position: absolute;
+}
+
+.center-x {
+    left: 50%;
+    transform: translateX(-50%) !important;
+}
+.center-y {
+    top: 50%;
+    transform: translateY(-50%) !important;
+}
+
+.center-x.center-y {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}
+// ----- End Position -----
+
+// ----- Image -----
+.object-fit-cover {
+    object-fit: cover;
+}
+// ----- End Image -----
+
+// ----- Overflow -----
+.overflow-hidden {
+    overflow: hidden;
+}
+// ----- End Overflow -----
+
+// ----- Other -----
+.list-style-none {
+    list-style: none;
+}
+
+.bg-light-gray {
+    background-color: var(--bg-light-gray);
+}
+// ----- End Other -----
+
+// ----- Breakpoint -----
+// sm
+@media (min-width: 576px) {
+    // Display
+    .d-sm-inline-flex {
+        display: inline-flex;
+    }
+    .d-sm-flex {
+        display: flex;
+    }
+    .d-sm-inline {
+        display: inline;
+    }
+
+    .d-sm-none {
+        display: none;
+    }
+    // End Display
+}
+
+// md
+@media (min-width: 768px) {
+    // Display
+    .d-md-inline-flex {
+        display: inline-flex;
+    }
+    .d-md-flex {
+        display: flex;
+    }
+    .d-md-inline {
+        display: inline;
+    }
+
+    .d-md-none {
+        display: none;
+    }
+    // End display
+
+    // Space
+    .px-md-1 {
+        padding: 0 4px;
+    }
+
+    .px-md-2 {
+        padding: 0 8px;
+    }
+
+    .px-md-3 {
+        padding: 0 12px;
+    }
+
+    .px-md-4 {
+        padding: 0 16px;
+    }
+
+    .px-md-5 {
+        padding: 0 24px;
+    }
+    // End Space
+}
+
+// lg
+@media (min-width: 992px) {
+    // Display
+    .d-lg-inline-flex {
+        display: inline-flex;
+    }
+    .d-lg-flex {
+        display: flex;
+    }
+    .d-lg-inline {
+        display: inline;
+    }
+
+    .d-lg-none {
+        display: none;
+    }
+    // End Display
+}
+
+// xl
+@media (min-width: 1200px) {
+    // Display
+    .d-xl-inline-flex {
+        display: inline-flex;
+    }
+    .d-xl-flex {
+        display: flex;
+    }
+    .d-xl-inline {
+        display: inline;
+    }
+
+    .d-xl-none {
+        display: none;
+    }
+    // End Display
+}
+
+// xxl
+@media (min-width: 1400px) {
+    // Display
+    .d-xxl-inline-flex {
+        display: inline-flex;
+    }
+    .d-xxl-flex {
+        display: flex;
+    }
+    .d-xxl-inline {
+        display: inline;
+    }
+
+    .d-xxl-none {
+        display: none;
+    }
+    // End Display
+}
+// ----- End Breakpoint -----

@@ -13,6 +13,7 @@
     --text-white-color: #fff;
     --text-gray-color: #6f6f6f;
     --border-color: #444;
+    --border-gray: #d0d0d0;
     --bg-white: #fff;
     --bg-black: #000;
     --bg-light-gray: rgb(246 246 246/1);
@@ -36,8 +37,19 @@ body {
     font-family: var(--primary-font);
 }
 
+ul {
+    padding-left: 16px;
+}
+
+li {
+    font-family: var(--primary-font);
+    font-size: 1.6rem;
+    margin-top: 4px;
+}
+
 // ----- Button -----
 .btn {
+    display: inline-block;
     min-width: 150px;
     background: var(--bg-white);
     color: var(--text-primary-color);
@@ -48,7 +60,7 @@ body {
     text-decoration: none;
     border: none;
     outline: none;
-    padding: 16px 24px;
+    padding: 15px 24px;
     border: 1px solid var(--border-color);
     border-radius: 2px;
     cursor: pointer;
@@ -59,7 +71,12 @@ body {
     }
 }
 
+.btn + .btn {
+    margin-left: 16px;
+}
+
 .btn.btn-sm {
+    font-size: 1.2rem;
     padding: 8px 14px;
 }
 
@@ -83,14 +100,32 @@ body {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 2px;
+        bottom: 4px;
         display: inline-block;
-        width: 80%;
-        height: 1px;
+        width: 84%;
+        height: 1.5px;
         background-color: var(--text-gray-color);
         opacity: 0.5;
         transition: all 0.4s ease;
     }
+    &:hover::after {
+        background-color: var(--text-black-color);
+        opacity: 1;
+    }
+}
+.btn.btn-link.hover-hide-underline {
+    color: var(--text-primary-color);
+
+    &:hover::after {
+        background-color: var(--text-black-color);
+        opacity: 0;
+    }
+}
+.btn.btn-link.hover-show-underline {
+    &::after {
+        opacity: 0;
+    }
+
     &:hover::after {
         background-color: var(--text-black-color);
         opacity: 1;
@@ -106,7 +141,54 @@ body {
         border-color: var(--bg-black);
     }
 }
+
+.btn.btn-gray {
+    border-color: var(--border-gray);
+    color: var(--text-gray-color);
+
+    &:hover {
+        color: var(--text-primary-color);
+    }
+
+    &.active {
+        color: var(--text-primary-color);
+        border-color: var(--border-color);
+    }
+}
+
+.btn.btn-icon {
+    min-width: 10px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn.rounded {
+    border-radius: 50px;
+}
 // ----- End Button -----
+
+// ----- Input -----
+.form-group {
+    margin: 4px 0;
+}
+.form-control {
+    display: inline-block;
+    font-size: 1.6rem;
+    border: none;
+    outline: none;
+    border: 1px solid var(--border-gray);
+    padding: 14px 16px;
+}
+.form-label {
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 500;
+    padding: 8px 0;
+}
+// ----- End Input -----
 
 // ----- Size -----
 .h-100 {
@@ -141,6 +223,29 @@ body {
 .border-bottom {
     border-bottom: 1px solid var(--border-color);
 }
+
+.border-start-hide {
+    border-left: transparent !important;
+}
+.border-end-hide {
+    border-right: transparent !important;
+}
+.border-top-hide {
+    border-top: transparent !important;
+}
+.border-bottom-hide {
+    border-bottom: transparent !important;
+}
+
+.border.border-gray,
+.border-x.border-gray,
+.border-y.border-gray,
+.border-start.border-gray,
+.border-end.border-gray,
+.border-top.border-gray,
+.border-bottom.border-gray {
+    border-color: var(--border-gray) !important;
+}
 // ----- End Border -----
 
 // ----- Space -----
@@ -163,21 +268,50 @@ body {
 }
 
 .px-1 {
-    padding: 0 4px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 .px-2 {
-    padding: 0 8px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 .px-3 {
-    padding: 0 12px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 .px-4 {
-    padding: 0 16px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 .px-5 {
-    padding: 0 24px;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
+.py-1 {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.py-2 {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+.py-3 {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.py-4 {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+.py-5 {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.ps-0 {
+    padding-left: 0px !important;
+}
 .ps-1 {
     padding-left: 4px;
 }
@@ -210,6 +344,9 @@ body {
     padding-right: 24px;
 }
 
+.pt-0 {
+    padding-top: 0px;
+}
 .pt-1 {
     padding-top: 4px;
 }
@@ -226,6 +363,12 @@ body {
     padding-top: 24px;
 }
 
+.pb-64 {
+    padding-bottom: 64px;
+}
+.pb-32 {
+    padding-bottom: 32px;
+}
 .pb-1 {
     padding-bottom: 4px;
 }
@@ -243,6 +386,47 @@ body {
 }
 
 // Margin
+.mx-64 {
+    margin-left: 64px;
+    margin-right: 64px;
+}
+.mx-32 {
+    margin-left: 32px;
+    margin-right: 32px;
+}
+.my-64 {
+    margin-top: 64px;
+    margin-bottom: 64px;
+}
+.my-32 {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.mx-1 {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.mx-2 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.mx-3 {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.mx-4 {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.mx-5 {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
 .mt-64 {
     margin-top: 64px;
 }
@@ -254,22 +438,6 @@ body {
 }
 .mb-32 {
     margin-bottom: 32px;
-}
-
-.mx-1 {
-    margin: 0 4px;
-}
-.mx-2 {
-    margin: 0 8px;
-}
-.mx-3 {
-    margin: 0 12px;
-}
-.mx-4 {
-    margin: 0 16px;
-}
-.mx-5 {
-    margin: 0 24px;
 }
 
 .ms-1 {
@@ -350,6 +518,9 @@ body {
 .flex-column {
     flex-direction: column;
 }
+.flex-wrap {
+    flex-wrap: wrap;
+}
 
 .flex-1 {
     flex: 1;
@@ -409,7 +580,7 @@ body {
     font-style: italic;
 }
 .text-uppercase {
-    text-transform: uppercase;
+    text-transform: uppercase !important;
 }
 .text-decoration-none {
     text-decoration: none;
@@ -424,6 +595,9 @@ body {
 }
 .fs-42 {
     font-size: 4.2rem !important;
+}
+.fs-36 {
+    font-size: 3.6rem !important;
 }
 .fs-24 {
     font-size: 2.4rem !important;
@@ -507,7 +681,39 @@ body {
 .overflow-hidden {
     overflow: hidden;
 }
+.scroll-y {
+    overflow-y: scroll;
+}
 // ----- End Overflow -----
+
+// ----- Badge -----
+.badge {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-white-color);
+    padding: 0px 8px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: var(--primary-font);
+}
+.badge.badge-outline {
+    background-color: transparent;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary-color);
+}
+.badge.badge-text {
+    font-weight: 400;
+}
+.badge.badge-lg {
+    padding: 2px 12px;
+    font-size: 1.6rem;
+}
+
+.badge + .badge {
+    margin-left: 8px;
+}
+// ----- End Badge -----
 
 // ----- Other -----
 .list-style-none {
@@ -616,6 +822,13 @@ body {
         display: none;
     }
     // End Display
+
+    // Max width
+    .max-width-xl {
+        max-width: 1024px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 // xxl

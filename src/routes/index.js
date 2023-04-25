@@ -2,6 +2,7 @@ import MainLayout from "@/components/Layout/MainLayout";
 import About from "@/pages/About";
 import Home from "@/pages/Home";
 import Instruction from "@/pages/Instruction";
+import OrderDetails from "@/pages/OrderDetails";
 import ProductDetails from "@/pages/ProductDetails";
 import Shop from "@/pages/Shop";
 
@@ -11,6 +12,7 @@ const publicRoutes = [
     { path: "/instruction", component: Instruction, layout: MainLayout },
     { path: "/products", component: Shop, layout: MainLayout },
     { path: "/products/:id", component: ProductDetails, layout: MainLayout },
+    { path: "/confirm", component: OrderDetails, layout: null },
 ];
 
 const privateRoutes = [];

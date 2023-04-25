@@ -1,4 +1,6 @@
 import logo from "./logo.svg";
+import mbBank from "./mb.webp";
+import vibBank from "./vib.webp";
 
 // Home
 import homeCover from "./Home/home-cover.webp";
@@ -28,8 +30,20 @@ import illusLoyal from "./About/chan-thanh_Illus.webp";
 import entremetCake from "./About/banh-entremet.webp";
 import lafuongChef from "./About/chef-lafuong.webp";
 
+// Instruction
+import instructionCover from "./Instruction/giao-hang.webp";
+
+import illusPick from "./Instruction/Illus_pick.webp";
+import illusWrite from "./Instruction/Illus_write.webp";
+import illusFillOut from "./Instruction/Illus_fill_out.webp";
+import illusPay from "./Instruction/Illus_thanh_toan.webp";
+import illusCall from "./Instruction/Illus_call.webp";
+import illusDelivery from "./Instruction/Illus_delivery.webp";
+
 const images = {
     logo,
+    mbBank,
+    vibBank,
     home: {
         homeCover,
         whisperWhite,
@@ -52,6 +66,15 @@ const images = {
         illusLoyal,
         entremetCake,
         lafuongChef,
+    },
+    instruction: {
+        instructionCover,
+        illusPick,
+        illusWrite,
+        illusFillOut,
+        illusPay,
+        illusCall,
+        illusDelivery,
     },
 };
 

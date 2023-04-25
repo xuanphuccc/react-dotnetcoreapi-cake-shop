@@ -31,7 +31,7 @@ function Footer() {
                                 >
                                     Menu
                                 </h4>
-                                <ul className={cx("list-style-none")}>
+                                <ul className={cx("list-style-none", "ps-0")}>
                                     <li className={cx("mt-2", "text-center")}>
                                         <Link
                                             className={cx("fs-20", "text-link")}
@@ -85,7 +85,7 @@ function Footer() {
                                 >
                                     Hotline
                                 </h4>
-                                <ul className={cx("list-style-none")}>
+                                <ul className={cx("list-style-none", "ps-0")}>
                                     <li className={cx("mt-2", "text-center")}>
                                         <a
                                             href="tel:0907860330"
@@ -146,7 +146,8 @@ function Footer() {
                                     className={cx(
                                         "list-style-none",
                                         "d-flex",
-                                        "mt-2"
+                                        "mt-2",
+                                        "ps-0"
                                     )}
                                 >
                                     <li className={cx("footer-brand")}>

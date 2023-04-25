@@ -3,10 +3,22 @@ import styles from "./Header.module.scss";
 import icons from "@/assets/icons";
 import images from "@/assets/images";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import drawersSlide from "../drawersSlide";
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const dispatch = useDispatch();
+
+    const handleOpenMenu = () => {
+        dispatch(drawersSlide.actions.openMenu());
+    };
+
+    const handleOpenCart = () => {
+        dispatch(drawersSlide.actions.openCart());
+    };
+
     return (
         <header className={cx("header")}>
             <nav
@@ -20,6 +32,7 @@ function Header() {
                 )}
             >
                 <span
+                    onClick={handleOpenMenu}
                     className={cx(
                         "d-inline-flex",
                         "align-items-center",
@@ -63,6 +76,7 @@ function Header() {
 
                 <span className={cx("h-100", "d-flex")}>
                     <Link
+                        to={"/products"}
                         className={cx(
                             "text-primary",
                             "text-decoration-none",
@@ -78,7 +92,8 @@ function Header() {
                     >
                         Đặt bánh
                     </Link>
-                    <Link
+                    <span
+                        onClick={handleOpenCart}
                         className={cx(
                             "text-primary",
                             "text-decoration-none",
@@ -89,14 +104,16 @@ function Header() {
                             "px-md-5",
                             "border-start",
                             "d-inline-flex",
-                            "align-items-center"
+                            "align-items-center",
+                            "cursor-pointer"
                         )}
                     >
                         <img src={icons.cart} alt="" />
                         <span className={cx("ms-2", "d-none", "d-lg-inline")}>
                             Giỏ
                         </span>
-                    </Link>
+                        <span className={cx("badge", "ms-2")}>1</span>
+                    </span>
                 </span>
             </nav>
 

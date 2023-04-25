@@ -326,7 +326,10 @@ function About() {
             {/* ----- Section 5 ----- */}
             <section className={cx("border-bottom")}>
                 <Row>
-                    <Col xs={24} lg={12}>
+                    <Col
+                        xs={{ span: 24, order: 2 }}
+                        lg={{ span: 12, order: 2 }}
+                    >
                         <div className={cx("py-64", "px-32")}>
                             <h2
                                 className={cx(
@@ -386,7 +389,10 @@ function About() {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={24} lg={12}>
+                    <Col
+                        xs={{ span: 24, order: 1 }}
+                        lg={{ span: 12, order: 2 }}
+                    >
                         <div className={cx("h-100", "w-100", "border-start")}>
                             <img
                                 // style={{ maxHeight: 482 }}

@@ -1,0 +1,11 @@
+.payment-img {
+    height: 40px;
+    width: 60px;
+    object-fit: contain;
+    padding: 4px;
+    border: 1px solid var(--border-gray);
+}
+
+.payment-item:hover {
+    background-color: var(--bg-light-gray);
+}

@@ -20,6 +20,7 @@ function Home() {
                 </div>
 
                 <Link
+                    to={"/products"}
                     className={cx(
                         "btn",
                         "absolute",
@@ -94,9 +95,12 @@ function Home() {
                                     "mt-32"
                                 )}
                             >
-                                <button className={cx("btn", "btn-dark")}>
+                                <Link
+                                    to={"/about"}
+                                    className={cx("btn", "btn-dark")}
+                                >
                                     Về LAFUONG
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </Col>
@@ -122,6 +126,7 @@ function Home() {
                 <Row>
                     <Col xs={24} lg={8}>
                         <Link
+                            to={"/products/#cake"}
                             className={cx(
                                 "d-block",
                                 "px-32",
@@ -161,6 +166,7 @@ function Home() {
 
                     <Col xs={24} lg={8}>
                         <Link
+                            to={"/products/#small-cake"}
                             className={cx(
                                 "d-block",
                                 "px-32",
@@ -201,6 +207,7 @@ function Home() {
 
                     <Col xs={24} lg={8}>
                         <Link
+                            to={"/products/#accessory"}
                             className={cx(
                                 "d-block",
                                 "px-32",
@@ -280,9 +287,12 @@ function Home() {
                     </p>
 
                     <div className={cx("d-flex", "justify-center", "mt-32")}>
-                        <button className={cx("btn", "btn-dark")}>
+                        <Link
+                            to={"/products"}
+                            className={cx("btn", "btn-dark")}
+                        >
                             Xem tất cả
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -342,9 +352,12 @@ function Home() {
                                     "mt-32"
                                 )}
                             >
-                                <button className={cx("btn", "btn-dark")}>
+                                <Link
+                                    to={"/products"}
+                                    className={cx("btn", "btn-dark")}
+                                >
                                     Xem sản phẩm
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </Col>
@@ -355,7 +368,10 @@ function Home() {
             {/* Section 5 */}
             <section className={cx("border-bottom")}>
                 <Row>
-                    <Col xs={24} lg={12}>
+                    <Col
+                        xs={{ span: 24, order: 2 }}
+                        lg={{ span: 12, order: 1 }}
+                    >
                         <div className={cx("py-64", "px-32")}>
                             <h2
                                 className={cx(
@@ -401,13 +417,19 @@ function Home() {
                                     "mt-32"
                                 )}
                             >
-                                <button className={cx("btn", "btn-dark")}>
+                                <Link
+                                    to={"/instruction"}
+                                    className={cx("btn", "btn-dark")}
+                                >
                                     Cách đặt bánh
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </Col>
-                    <Col xs={24} lg={12}>
+                    <Col
+                        xs={{ span: 24, order: 1 }}
+                        lg={{ span: 12, order: 2 }}
+                    >
                         <div className={cx("h-100", "w-100")}>
                             <img
                                 // style={{ maxHeight: 482 }}

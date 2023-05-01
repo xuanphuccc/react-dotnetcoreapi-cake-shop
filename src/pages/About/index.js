@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 function About() {
     return (
-        <div className={cx("home-wrap")}>
+        <div className={cx("about-wrap")}>
             {/* ----- Home cover ----- */}
             <section className={cx("border-bottom", "relative")}>
                 <div className={cx("home-cover")}>
@@ -25,7 +25,15 @@ function About() {
             <section className={cx("border-bottom")}>
                 <Row>
                     <Col xs={24} lg={12}>
-                        <div className={cx("py-64", "px-32")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center"
+                            )}
+                        >
                             <p
                                 className={cx(
                                     "fs-16",
@@ -44,7 +52,8 @@ function About() {
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Niềm hạnh phúc khi cùng nhau thưởng thức bánh
@@ -54,7 +63,8 @@ function About() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Sự ra đời của LaFuong bắt nguồn từ niềm đam mê
@@ -69,13 +79,9 @@ function About() {
                         </div>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <div className={cx("h-100", "w-100", "border-start")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                className={cx(
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.about.about02}
                                 alt=""
                             />
@@ -101,13 +107,8 @@ function About() {
                     </p>
                     <Row>
                         <Col xs={24} lg={8}>
-                            <Link
-                                className={cx(
-                                    "d-block",
-                                    "px-4",
-                                    "py-32",
-                                    "text-primary"
-                                )}
+                            <div
+                                className={cx("px-4", "py-32", "text-primary")}
                             >
                                 <div className={cx("py-32", "pb-4")}>
                                     <img
@@ -141,16 +142,11 @@ function About() {
                                     hoàn thiện tỉ mỉ với những tiêu chuẩn cao
                                     cấp nhất.
                                 </p>
-                            </Link>
+                            </div>
                         </Col>
                         <Col xs={24} lg={8}>
-                            <Link
-                                className={cx(
-                                    "d-block",
-                                    "px-4",
-                                    "py-32",
-                                    "text-primary"
-                                )}
+                            <div
+                                className={cx("px-4", "py-32", "text-primary")}
                             >
                                 <div className={cx("py-32", "pb-4")}>
                                     <img
@@ -183,16 +179,11 @@ function About() {
                                     gói chỉn chu để ai cũng có thể nhận về những
                                     niềm vui khi bánh được giao tới tận nơi.
                                 </p>
-                            </Link>
+                            </div>
                         </Col>
                         <Col xs={24} lg={8}>
-                            <Link
-                                className={cx(
-                                    "d-block",
-                                    "px-4",
-                                    "py-32",
-                                    "text-primary"
-                                )}
+                            <div
+                                className={cx("px-4", "py-32", "text-primary")}
                             >
                                 <div className={cx("py-32", "pb-4")}>
                                     <img
@@ -226,7 +217,7 @@ function About() {
                                     nguồn động lực cho chúng tôi làm việc mỗi
                                     ngày.
                                 </p>
-                            </Link>
+                            </div>
                         </Col>
                     </Row>
                 </div>
@@ -237,22 +228,24 @@ function About() {
             <section className={cx("border-bottom")}>
                 <Row>
                     <Col xs={24} lg={12}>
-                        <div className={cx("h-100", "w-100")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                // style={{ maxHeight: 450 }}
-                                className={cx(
-                                    "d-block",
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.about.entremetCake}
                                 alt=""
                             />
                         </div>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <div className={cx("py-64", "px-32", "border-start")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center"
+                            )}
+                        >
                             <p
                                 className={cx(
                                     "fs-16",
@@ -271,7 +264,8 @@ function About() {
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Bánh Entremet
@@ -281,7 +275,8 @@ function About() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Là dòng bánh hiện đại và cao cấp nhất của Pháp,
@@ -296,7 +291,8 @@ function About() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Bạn sẽ tìm thấy ở LaFuong một chiếc bánh
@@ -306,13 +302,7 @@ function About() {
                                 không cần đợi đến dịp gì.
                             </p>
 
-                            <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-center",
-                                    "mt-32"
-                                )}
-                            >
+                            <div className={cx("mt-32")}>
                                 <button className={cx("btn", "btn-dark")}>
                                     Xem sản phẩm
                                 </button>
@@ -330,14 +320,24 @@ function About() {
                         xs={{ span: 24, order: 2 }}
                         lg={{ span: 12, order: 2 }}
                     >
-                        <div className={cx("py-64", "px-32")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center",
+                                "outline"
+                            )}
+                        >
                             <h2
                                 className={cx(
                                     "font-secondary",
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Hành trình của một người yêu bánh
@@ -347,12 +347,13 @@ function About() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Chef LaFuong là một đầu bếp bánh ngọt đã tốt
                                 nghiệp chuyên ngành bánh ngọt Pháp (Diplôme de
-                                Pâtisserie) tại Le Cordon Bleu – học viện ẩm
+                                Pâtisserie) tại Le Cordon Bleu - học viện ẩm
                                 thực hàng đầu thế giới với lịch sử gần 130 năm
                                 hình thành. Trải qua nhiều vị trí khác nhau tại
                                 các chuỗi bánh lớn ở Hà Nội, LaFuong đã dành
@@ -365,24 +366,19 @@ function About() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Quay trở về để bắt đầu hành trình nghiên cứu
                                 khẩu vị cũng như thói quen thưởng thức bánh ngọt
                                 của người Việt, sự ra đời của LaFuong Pastry
-                                chính là để nối tiếp giấc mơ – mang trải nghiệm
+                                chính là để nối tiếp giấc mơ - mang trải nghiệm
                                 cao cấp của bánh ngọt Pháp đến gần hơn với mọi
                                 người.
                             </p>
 
-                            <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-center",
-                                    "mt-32"
-                                )}
-                            >
+                            <div className={cx("mt-32")}>
                                 <Link className={cx("btn", "btn-dark")}>
                                     Lafuongchef.com
                                 </Link>
@@ -393,15 +389,9 @@ function About() {
                         xs={{ span: 24, order: 1 }}
                         lg={{ span: 12, order: 2 }}
                     >
-                        <div className={cx("h-100", "w-100", "border-start")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                // style={{ maxHeight: 482 }}
-                                className={cx(
-                                    "d-block",
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.about.lafuongChef}
                                 alt=""
                             />

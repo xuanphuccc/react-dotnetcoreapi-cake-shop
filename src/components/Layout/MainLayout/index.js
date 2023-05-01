@@ -1,9 +1,13 @@
+import classNames from "classnames/bind";
+import styles from "./MainLayout.module.scss";
 import { useEffect } from "react";
 import Cart from "./Cart";
 import Footer from "./Footer";
 import Header from "./Header";
 import Menu from "./Menu";
 import { useLocation } from "react-router-dom";
+
+const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
     const location = useLocation();
@@ -19,11 +23,11 @@ function MainLayout({ children }) {
     }, [location]);
 
     return (
-        <div className="main-layout">
+        <div className={cx("main-layout")}>
             <Header />
             <Menu />
             <Cart />
-            {children}
+            <div className={cx("content-wrapper")}>{children}</div>
             <Footer />
         </div>
     );

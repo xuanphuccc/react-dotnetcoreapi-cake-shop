@@ -31,7 +31,7 @@ function ProductDetails() {
     }, [slider1Ref, slider2Ref]);
 
     return (
-        <div className={cx("product-details-wrap")}>
+        <div>
             <section className={cx("border-bottom")}>
                 <Row>
                     <Col xs={24} lg={12}>
@@ -149,7 +149,7 @@ function ProductDetails() {
                         <div className={cx("product-details")}>
                             <div className={cx("d-flex", "align-items-center")}>
                                 <img
-                                    className={cx("me-1")}
+                                    className={cx("me-1", "btn-back-icon")}
                                     src={icons.arrowLeft}
                                     alt=""
                                 />

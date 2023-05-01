@@ -10,7 +10,7 @@ function Instruction() {
     const [activeTab, setActiveTab] = useState("delivery");
 
     return (
-        <div className={cx("home-wrap")}>
+        <div>
             {/* ----- Home cover ----- */}
             <section className={cx("border-bottom", "relative")}>
                 <div className={cx("home-cover")}>

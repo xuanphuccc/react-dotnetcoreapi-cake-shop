@@ -1,7 +1,3 @@
-.home-wrap {
-    margin-top: 94px;
-}
-
 .home-cover {
     width: 100%;
     height: calc(100vh - 94px);
@@ -15,4 +11,22 @@
 
 .home-cover-btn {
     bottom: 50px;
+}
+
+// section
+.section-img {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    left: 0;
+    top: 0;
+}
+
+.section-img-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: 100%;
 }

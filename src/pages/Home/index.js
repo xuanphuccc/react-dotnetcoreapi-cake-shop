@@ -37,7 +37,15 @@ function Home() {
             <section className={cx("border-bottom")}>
                 <Row>
                     <Col xs={24} lg={12}>
-                        <div className={cx("py-64", "px-32")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center"
+                            )}
+                        >
                             <p
                                 className={cx(
                                     "fs-16",
@@ -56,7 +64,8 @@ function Home() {
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Lựa chọn lý tưởng cho bánh ngọt chuẩn Pháp
@@ -66,7 +75,8 @@ function Home() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Dành nhiều tình cảm đặc biệt cho bánh ngọt Pháp,
@@ -79,7 +89,8 @@ function Home() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Hãy một lần nếm thử bánh của LaFuong để cảm nhận
@@ -88,13 +99,7 @@ function Home() {
                                 biệt trong từng chiếc bánh.
                             </p>
 
-                            <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-center",
-                                    "mt-32"
-                                )}
-                            >
+                            <div className={cx("mt-32")}>
                                 <Link
                                     to={"/about"}
                                     className={cx("btn", "btn-dark")}
@@ -105,13 +110,9 @@ function Home() {
                         </div>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <div className={cx("h-100", "w-100", "border-start")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                className={cx(
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.home.whisperWhite}
                                 alt=""
                             />
@@ -302,29 +303,32 @@ function Home() {
             <section className={cx("border-bottom")}>
                 <Row>
                     <Col xs={24} lg={12}>
-                        <div className={cx("h-100", "w-100")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                // style={{ maxHeight: 450 }}
-                                className={cx(
-                                    "d-block",
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.home.cooking}
                                 alt=""
                             />
                         </div>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <div className={cx("py-64", "px-32")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center"
+                            )}
+                        >
                             <h2
                                 className={cx(
                                     "font-secondary",
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Sự sáng tạo đến từ những hương vị tự nhiên
@@ -334,7 +338,8 @@ function Home() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Từ vải và dâu rừng, trà Earl Grey và cam hay
@@ -345,13 +350,7 @@ function Home() {
                                 phù hợp với khẩu vị của riêng mình tại LaFuong.
                             </p>
 
-                            <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-center",
-                                    "mt-32"
-                                )}
-                            >
+                            <div className={cx("mt-32")}>
                                 <Link
                                     to={"/products"}
                                     className={cx("btn", "btn-dark")}
@@ -372,14 +371,23 @@ function Home() {
                         xs={{ span: 24, order: 2 }}
                         lg={{ span: 12, order: 1 }}
                     >
-                        <div className={cx("py-64", "px-32")}>
+                        <div
+                            className={cx(
+                                "py-64",
+                                "px-32",
+                                "d-flex",
+                                "flex-column",
+                                "align-items-center"
+                            )}
+                        >
                             <h2
                                 className={cx(
                                     "font-secondary",
                                     "fw-200",
                                     "fs-42",
                                     "text-center",
-                                    "text-italic"
+                                    "text-italic",
+                                    "maxw-450"
                                 )}
                             >
                                 Không chỉ là chiếc bánh, mà là một món quà
@@ -389,7 +397,8 @@ function Home() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Bánh của LaFuong không dành để ăn một mình, vì
@@ -402,7 +411,8 @@ function Home() {
                                     "mt-32",
                                     "fs-16",
                                     "font-primary",
-                                    "text-center"
+                                    "text-center",
+                                    "maxw-480"
                                 )}
                             >
                                 Từ chiếc hộp, cây nến, tấm bưu thiệp hay cách
@@ -410,13 +420,7 @@ function Home() {
                                 sẽ được LaFuong chuẩn bị thật chu đáo.
                             </p>
 
-                            <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-center",
-                                    "mt-32"
-                                )}
-                            >
+                            <div className={cx("mt-32")}>
                                 <Link
                                     to={"/instruction"}
                                     className={cx("btn", "btn-dark")}
@@ -430,15 +434,9 @@ function Home() {
                         xs={{ span: 24, order: 1 }}
                         lg={{ span: 12, order: 2 }}
                     >
-                        <div className={cx("h-100", "w-100")}>
+                        <div className={cx("section-img-wrap", "outline")}>
                             <img
-                                // style={{ maxHeight: 482 }}
-                                className={cx(
-                                    "d-block",
-                                    "w-100",
-                                    "h-100",
-                                    "object-fit-cover"
-                                )}
+                                className={cx("section-img")}
                                 src={images.home.packaging}
                                 alt=""
                             />

@@ -11,12 +11,13 @@
     --text-primary-color: #444444;
     --text-black-color: #000;
     --text-white-color: #fff;
-    --text-gray-color: #6f6f6f;
+    --text-gray-color: #808589;
+    --text-light-gray: #bcbcbc;
     --border-color: #444;
     --border-gray: #d0d0d0;
     --bg-white: #fff;
     --bg-black: #000;
-    --bg-light-gray: rgb(246 246 246/1);
+    --bg-light-gray: #f6f6f6;
 }
 
 * {
@@ -50,7 +51,7 @@ li {
 // ----- Button -----
 .btn {
     display: inline-block;
-    min-width: 150px;
+    min-width: 80px;
     background: var(--bg-white);
     color: var(--text-primary-color);
     font-family: var(--third-font);
@@ -245,6 +246,10 @@ li {
 .border-top.border-gray,
 .border-bottom.border-gray {
     border-color: var(--border-gray) !important;
+}
+
+.outline {
+    outline: 1px solid var(--border-color);
 }
 // ----- End Border -----
 
@@ -563,6 +568,12 @@ li {
         color: var(--text-primary-color);
     }
 }
+.text-secondary {
+    color: var(--text-gray-color);
+}
+.text-light-gray {
+    color: var(--text-light-gray);
+}
 
 .text-link {
     color: var(--text-primary-color);
@@ -576,6 +587,9 @@ li {
     text-align: center;
 }
 
+.text-normal {
+    text-transform: none !important;
+}
 .text-italic {
     font-style: italic;
 }
@@ -681,6 +695,12 @@ li {
 .overflow-hidden {
     overflow: hidden;
 }
+.overflow-x-auto {
+    overflow-x: auto;
+}
+.overflow-y-auto {
+    overflow-y: auto;
+}
 .scroll-y {
     overflow-y: scroll;
 }
@@ -715,6 +735,98 @@ li {
 }
 // ----- End Badge -----
 
+// ----- Tables -----
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: #f2edf3;
+    width: 100%;
+    color: var(--text-primary-color);
+    vertical-align: top;
+    margin-bottom: 0;
+    border-color: #d9d9d9;
+    border-width: 1px;
+    border-collapse: collapse;
+}
+.table > :not(caption) > * > * {
+    padding: 0.8rem 0.8rem;
+    background-color: var(--bs-table-bg);
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.table tbody tr:last-child td {
+    border: none;
+}
+
+.table.bordered-header-only td {
+    border: none !important;
+}
+
+.table-sm > :not(caption) > * > * {
+    padding: 0.4rem 0.4rem;
+}
+
+.table-borderless > :not(caption) > * > * {
+    border-bottom-width: 0;
+}
+
+.table-borderless > :not(:first-child) {
+    border-top-width: 0;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--bs-table-striped-bg);
+    color: var(--bs-table-striped-color);
+}
+
+.table-hover > tbody > tr:hover > * {
+    color: var(--bs-table-hover-color);
+    background-color: var(--bs-table-hover-bg);
+}
+
+.table thead th {
+    font-family: var(--primary-font);
+    color: var(--text-gray-color);
+    font-weight: 600;
+    text-align: start;
+    font-size: 1.2rem;
+}
+
+.table th,
+.table td {
+    font-family: var(--primary-color);
+    vertical-align: middle;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    padding: 1.4rem;
+
+    transition: all 0.2s ease;
+}
+
+.table th img,
+.table td img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+}
+
+.table.table-borderless {
+    border: none;
+}
+.table.table-borderless tr,
+.table.table-borderless td,
+.table.table-borderless th {
+    border: none;
+}
+// ----- End Tables -----
+
 // ----- Other -----
 .list-style-none {
     list-style: none;
@@ -722,6 +834,27 @@ li {
 
 .bg-light-gray {
     background-color: var(--bg-light-gray);
+}
+
+.rounded {
+    border-radius: 12px;
+}
+.rounded-sm {
+    border-radius: 8px;
+}
+
+.shadow-sm {
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+.maxw-480 {
+    max-width: 480px;
+}
+.maxw-450 {
+    max-width: 450px;
+}
+.maxw-266 {
+    max-width: 480px;
 }
 // ----- End Other -----
 
@@ -803,6 +936,10 @@ li {
         display: none;
     }
     // End Display
+
+    .pe-lg-5 {
+        padding-right: 24px;
+    }
 }
 
 // xl

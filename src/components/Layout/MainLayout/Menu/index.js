@@ -12,7 +12,8 @@ function Menu() {
     const dispatch = useDispatch();
     const menuStatus = useSelector(menuStatusSelector);
 
-    const handleCloseMenu = () => {
+    const handleCloseMenu = (e) => {
+        e.stopPropagation();
         dispatch(drawersSlide.actions.closeMenu());
     };
 
@@ -62,6 +63,7 @@ function Menu() {
                         <li className={cx("")}>
                             <Link
                                 to={"/about"}
+                                onClick={handleCloseMenu}
                                 className={cx(
                                     "fs-24",
                                     "fw-400",
@@ -77,6 +79,7 @@ function Menu() {
                         <li className={cx("")}>
                             <Link
                                 to={"/products"}
+                                onClick={handleCloseMenu}
                                 className={cx(
                                     "fs-24",
                                     "fw-400",
@@ -99,6 +102,7 @@ function Menu() {
                                 <li className={cx("")}>
                                     <Link
                                         to={"/products/#cake"}
+                                        onClick={handleCloseMenu}
                                         className={cx(
                                             "fs-20",
                                             "fw-400",
@@ -114,6 +118,7 @@ function Menu() {
                                 <li className={cx("")}>
                                     <Link
                                         to={"/products/#small-cake"}
+                                        onClick={handleCloseMenu}
                                         className={cx(
                                             "fs-20",
                                             "fw-400",
@@ -129,6 +134,7 @@ function Menu() {
                                 <li className={cx("")}>
                                     <Link
                                         to={"/products/#accessory"}
+                                        onClick={handleCloseMenu}
                                         className={cx(
                                             "fs-20",
                                             "fw-400",
@@ -147,6 +153,7 @@ function Menu() {
                         <li className={cx("")}>
                             <Link
                                 to={"/instruction"}
+                                onClick={handleCloseMenu}
                                 className={cx(
                                     "fs-24",
                                     "fw-400",
@@ -163,6 +170,7 @@ function Menu() {
                         <li className={cx("")}>
                             <Link
                                 to={"/instruction"}
+                                onClick={handleCloseMenu}
                                 className={cx(
                                     "fs-24",
                                     "fw-400",

@@ -40,7 +40,7 @@ function Shop() {
     }, [fragment]);
 
     return (
-        <div className={cx("home-wrap")}>
+        <div>
             {/* ----- Products section ----- */}
             <section ref={cakeRef} className={cx("border-bottom")}>
                 <div

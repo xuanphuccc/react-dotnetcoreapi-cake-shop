@@ -22,8 +22,13 @@
 }
 
 .select-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rotate-90 {
     transform: rotate(90deg);
-    display: inline-block;
 }
 
 .select-list {

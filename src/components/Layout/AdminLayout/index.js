@@ -103,6 +103,7 @@ function AdminLayout({ children }) {
                                     <span>Tổng quan</span>
                                 </Link>
                             </li>
+
                             <li
                                 className={cx("sidebar-nav-item", {
                                     active: location.pathname.includes(
@@ -120,6 +121,7 @@ function AdminLayout({ children }) {
                                     <span>Đơn hàng</span>
                                 </Link>
                             </li>
+
                             <li
                                 className={cx("sidebar-nav-item", {
                                     active: location.pathname.includes(
@@ -137,6 +139,7 @@ function AdminLayout({ children }) {
                                     <span>Sản phẩm</span>
                                 </Link>
                             </li>
+
                             <li
                                 className={cx("sidebar-nav-item", {
                                     active: location.pathname.includes(
@@ -154,6 +157,24 @@ function AdminLayout({ children }) {
                                     <span>Danh mục</span>
                                 </Link>
                             </li>
+
+                            <li
+                                className={cx("sidebar-nav-item", {
+                                    active: location.pathname.includes(
+                                        "/admin/shipping-methods"
+                                    ),
+                                })}
+                            >
+                                <Link
+                                    to={"/admin/shipping-methods"}
+                                    className={cx("sidebar-nav-link")}
+                                >
+                                    <span className={cx("sidebar-nav-icon")}>
+                                        <Unicons.UilTruck size="20" />
+                                    </span>
+                                    <span>Vận chuyển</span>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -166,7 +187,11 @@ function AdminLayout({ children }) {
                         </button>
                     </div>
                 </nav>
+
+                {/* ----- Main content ----- */}
+                {/* Content render here */}
                 <div className={cx("main-content")}>{children}</div>
+                {/* ----- End Main content ----- */}
             </div>
         </div>
     );

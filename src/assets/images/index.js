@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import mbBank from "./mb.webp";
 import vibBank from "./vib.webp";
 import cat from "./cat.png";
+import placeholder from "./placeholder.png";
 
 // Home
 import homeCover from "./Home/home-cover.webp";
@@ -46,6 +47,7 @@ const images = {
     mbBank,
     vibBank,
     cat,
+    placeholder,
     home: {
         homeCover,
         whisperWhite,

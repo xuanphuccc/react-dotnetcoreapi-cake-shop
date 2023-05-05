@@ -1,34 +1,32 @@
 import classNames from "classnames/bind";
+import styles from "./ShippingMethods.module.scss";
 import { Breadcrumb, Tag } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-
-import styles from "./Orders.module.scss";
+import images from "@/assets/images";
+import shippingMethodApi from "@/api/shippingMethodApi";
 import currencyConvert from "@/services/currencyConvert";
-import orderApi from "@/api/orderApi";
-import renderOrderStatus from "@/services/renderOrderStatus";
 
 const cx = classNames.bind(styles);
 
-function Orders() {
-    const [orders, setOrders] = useState([]);
+function ShippingMethods() {
+    const [shippingMethods, setShippingMethods] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const handleGetAllProducts = async () => {
+        const handleGetAllShippingMethods = async () => {
             try {
-                var allOrders = await orderApi.getAll();
+                const allShippingMethods = await shippingMethodApi.getAll();
 
-                setOrders(allOrders.data.data);
-                console.log(allOrders);
+                setShippingMethods(allShippingMethods.data.data);
+                console.log(allShippingMethods.data);
             } catch (error) {
                 console.warn(error);
             }
         };
 
-        handleGetAllProducts();
+        handleGetAllShippingMethods();
     }, []);
 
     return (
@@ -42,7 +40,7 @@ function Orders() {
                     "justify-space-between"
                 )}
             >
-                <h1 className={cx("font-primary", "fw-700")}>Đơn hàng</h1>
+                <h1 className={cx("font-primary", "fw-700")}>Vận chuyển</h1>
                 <Breadcrumb
                     className={cx("d-none", "d-md-block")}
                     items={[
@@ -50,7 +48,7 @@ function Orders() {
                             title: <Link to={"/admin"}>Trang chủ</Link>,
                             key: "home",
                         },
-                        { title: "Đơn hàng", key: "orders" },
+                        { title: "Vận chuyển", key: "shipping-methods" },
                     ]}
                 />
             </div>
@@ -68,9 +66,12 @@ function Orders() {
                         "pb-4"
                     )}
                 >
-                    <h4 className={cx("card-title")}>Tất cả đơn hàng</h4>
-                    <Link className={cx("btn", "btn-modern", "btn-dark")}>
-                        Thêm đơn hàng
+                    <h4 className={cx("card-title")}>Tất cả PT vận chuyển</h4>
+                    <Link
+                        to={"/admin/shipping-methods/create/0"}
+                        className={cx("btn", "btn-modern", "btn-dark")}
+                    >
+                        Thêm vận chuyển
                     </Link>
                 </div>
                 {/* End card header */}
@@ -87,50 +88,55 @@ function Orders() {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Đơn hàng</th>
-                                <th>Ngày đặt</th>
-                                <th>Khách hàng</th>
-                                <th>Số điện thoại</th>
+                                <th>Logo</th>
+                                <th>Tên pt vận chuyển</th>
+                                <th>Số km đầu</th>
+                                <th>Giá km đầu</th>
+                                <th>Giá mỗi km tiếp theo</th>
                                 <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {orders?.map((order, index) => (
+                            {shippingMethods?.map((shippingMethod, index) => (
                                 <tr
                                     onClick={() => {
                                         navigate(
-                                            `/admin/orders/details/${order.orderId}`
+                                            `/admin/shipping-methods/update/${shippingMethod.shippingMethodId}`
                                         );
                                     }}
                                     className={cx("cursor-pointer")}
-                                    key={order.orderId}
+                                    key={shippingMethod.shippingMethodId}
                                 >
                                     <td>{index + 1}</td>
-                                    <td>#{order.orderId}</td>
+                                    <td className={cx("py-2")}>
+                                        <img
+                                            className={cx("object-fit-contain")}
+                                            src={
+                                                shippingMethod.logo ||
+                                                images.placeholder
+                                            }
+                                            alt=""
+                                        />
+                                    </td>
+                                    <td>{shippingMethod.name}</td>
+                                    <td>{shippingMethod.initialDistance}</td>
                                     <td>
-                                        {dayjs(order.createAt).format(
-                                            "DD/MM/YYYY HH:mm"
+                                        {currencyConvert(
+                                            shippingMethod.initialCharge
                                         )}
                                     </td>
-                                    <td>{order.customerName}</td>
-                                    <td>{order.customerPhoneNumber}</td>
                                     <td>
-                                        <Tag
-                                            color={
-                                                renderOrderStatus(
-                                                    order.orderStatus
-                                                ).color
-                                            }
-                                        >
-                                            {
-                                                renderOrderStatus(
-                                                    order.orderStatus
-                                                ).name
-                                            }
-                                        </Tag>
+                                        {currencyConvert(
+                                            shippingMethod.additionalCharge
+                                        )}
                                     </td>
-                                    <td>{currencyConvert(order.orderTotal)}</td>
+                                    <td>
+                                        {shippingMethod.isDefault ? (
+                                            <Tag color="cyan">Mặc định</Tag>
+                                        ) : (
+                                            <Tag color="default">Đã ẩn</Tag>
+                                        )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -143,4 +149,4 @@ function Orders() {
     );
 }
 
-export default Orders;
+export default ShippingMethods;

@@ -1,18 +1,23 @@
 import classNames from "classnames/bind";
 import styles from "./CartDelivery.module.scss";
 import icons from "@/assets/icons";
+import * as Unicons from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import drawersSlide from "../../drawersSlide";
 import Select from "@/components/Select";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Checkbox, DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
 function CartDelivery() {
     const [deliveryTime, setdeliveryTime] = useState({});
+    const [addressOptions, setAddressOptions] = useState([]);
+    const [address, setAddress] = useState("");
     const [isPresent, setIsPresent] = useState(false);
 
     const dispatch = useDispatch();
@@ -27,9 +32,50 @@ function CartDelivery() {
         dispatch(drawersSlide.actions.openStepCart());
     };
 
+    // ----- Handle search address -----
+    const handleSearchAddress = useMemo(() => {
+        return debounce((value) => {
+            if (value) {
+                axios
+                    .get(
+                        `https://api.radar.io/v1/search/autocomplete?query=${value}` +
+                            `&near=21.027849%2C105.802306&limit=5&country=vn`,
+                        {
+                            headers: {
+                                Authorization: process.env["REACT_APP_MAP_API"],
+                            },
+                        }
+                    )
+                    .then((response) => {
+                        setAddressOptions(
+                            response.data.addresses.map((item) => ({
+                                label:
+                                    (item.placeLabel
+                                        ? item.placeLabel + ", "
+                                        : "") + item.formattedAddress,
+                                value: item,
+                            }))
+                        );
+                    })
+                    .catch((error) => {
+                        console.warn(error);
+                    });
+            }
+        }, 1000);
+    }, []);
+    // ----- End Handle search address -----
+
     // ----- Handle input change -----
     const handleDeliveryTimeChange = (value) => {
         setdeliveryTime(value);
+    };
+
+    const handleAddressInputChange = (value) => {
+        handleSearchAddress(value);
+    };
+
+    const handleSelectAddressChange = (value) => {
+        setAddress(value);
     };
 
     const handleIsPresentChange = (e) => {
@@ -130,12 +176,13 @@ function CartDelivery() {
                         value={deliveryTime}
                         onChange={handleDeliveryTimeChange}
                         options={[
-                            { label: "11h15 - 13h00", value: 1 },
-                            { label: "13h00 - 15h00", value: 2 },
-                            { label: "15h00 - 17h00", value: 3 },
-                            { label: "18h00 - 20h00", value: 4 },
+                            { label: "11h15 - 13h00", value: "11h15 - 13h00" },
+                            { label: "13h00 - 15h00", value: "13h00 - 15h00" },
+                            { label: "15h00 - 17h00", value: "15h00 - 17h00" },
+                            { label: "18h00 - 20h00", value: "18h00 - 20h00" },
                         ]}
                         placeholder="Chọn khung giờ giao"
+                        readOnly={true}
                     />
                 </div>
 
@@ -143,11 +190,13 @@ function CartDelivery() {
                     <label className={cx("form-label")} htmlFor="address">
                         Giao tới địa chỉ
                     </label>
-                    <input
-                        id="address"
-                        className={cx("form-control", "w-100")}
-                        type="text"
+                    <Select
+                        value={address}
+                        onChange={handleSelectAddressChange}
+                        onSearch={handleAddressInputChange}
+                        options={addressOptions}
                         placeholder="Nhập địa chỉ giao hàng"
+                        icon={<Unicons.UilSearch size="20" />}
                     />
                 </div>
 
@@ -166,7 +215,7 @@ function CartDelivery() {
                 {/* Is present input */}
                 <div className={cx("form-group", "pt-2", "pb-2")}>
                     <Checkbox
-                        value={isPresent}
+                        checked={isPresent}
                         onChange={handleIsPresentChange}
                         id="checkbox"
                     />

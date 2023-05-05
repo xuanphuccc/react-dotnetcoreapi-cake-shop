@@ -8,8 +8,11 @@ const cx = classNames.bind(styles);
 function Select({
     value,
     onChange,
+    onSearch,
     options = [{ label: "", value: "" }],
     placeholder = "",
+    readOnly = false,
+    icon,
 }) {
     const [selectValue, setSelectValue] = useState({});
     const groupRef = useRef();
@@ -26,16 +29,38 @@ function Select({
         }
     };
 
+    const handleSearch = (e) => {
+        setSelectValue({ label: e.target.value });
+
+        if (typeof onChange === "function") {
+            onChange({ label: e.target.value });
+        }
+
+        if (typeof onSearch === "function") {
+            onSearch(e.target.value);
+        }
+    };
+
     return (
         <div ref={groupRef} tabIndex={-1} className={cx("input-group")}>
             <input
                 value={value?.label || selectValue?.label || ""}
+                onChange={handleSearch}
                 className={cx("select-input", "w-100")}
                 type="text"
                 placeholder={placeholder || ""}
-                readOnly
+                readOnly={readOnly}
             />
-            <img className={cx("select-icon")} src={icons.arrowRight} alt="" />
+
+            {icon ? (
+                <span className={cx("select-icon")}>{icon}</span>
+            ) : (
+                <img
+                    className={cx("select-icon", "rotate-90")}
+                    src={icons.arrowRight}
+                    alt=""
+                />
+            )}
 
             <ul className={cx("select-list")}>
                 {options?.map((item, index) => (

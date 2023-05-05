@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 function CartDetails() {
     const dispatch = useDispatch();
 
+    // ----- -----
     const handleCloseCart = () => {
         dispatch(drawersSlide.actions.closeCart());
     };
@@ -18,6 +19,7 @@ function CartDetails() {
     const handleChangeStepToDelivery = () => {
         dispatch(drawersSlide.actions.openStepDelivery());
     };
+    // ----- -----
 
     return (
         <div className={cx("w-100", "d-flex", "flex-column")}>

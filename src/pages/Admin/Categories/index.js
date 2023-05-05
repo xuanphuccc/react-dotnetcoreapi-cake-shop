@@ -1,34 +1,31 @@
 import classNames from "classnames/bind";
-import { Breadcrumb, Tag } from "antd";
+import styles from "./Categories.module.scss";
+import { Breadcrumb } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-
-import styles from "./Orders.module.scss";
-import currencyConvert from "@/services/currencyConvert";
-import orderApi from "@/api/orderApi";
-import renderOrderStatus from "@/services/renderOrderStatus";
+import categoryApi from "@/api/categoryApi";
+import images from "@/assets/images";
 
 const cx = classNames.bind(styles);
 
-function Orders() {
-    const [orders, setOrders] = useState([]);
+function Categories() {
+    const [categories, setCategories] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const handleGetAllProducts = async () => {
+        const handleGetAllCategories = async () => {
             try {
-                var allOrders = await orderApi.getAll();
+                const allCategories = await categoryApi.getAll();
 
-                setOrders(allOrders.data.data);
-                console.log(allOrders);
+                setCategories(allCategories.data.data);
+                console.log(allCategories.data);
             } catch (error) {
                 console.warn(error);
             }
         };
 
-        handleGetAllProducts();
+        handleGetAllCategories();
     }, []);
 
     return (
@@ -42,7 +39,7 @@ function Orders() {
                     "justify-space-between"
                 )}
             >
-                <h1 className={cx("font-primary", "fw-700")}>Đơn hàng</h1>
+                <h1 className={cx("font-primary", "fw-700")}>Danh mục</h1>
                 <Breadcrumb
                     className={cx("d-none", "d-md-block")}
                     items={[
@@ -50,7 +47,7 @@ function Orders() {
                             title: <Link to={"/admin"}>Trang chủ</Link>,
                             key: "home",
                         },
-                        { title: "Đơn hàng", key: "orders" },
+                        { title: "Danh mục", key: "categories" },
                     ]}
                 />
             </div>
@@ -68,9 +65,12 @@ function Orders() {
                         "pb-4"
                     )}
                 >
-                    <h4 className={cx("card-title")}>Tất cả đơn hàng</h4>
-                    <Link className={cx("btn", "btn-modern", "btn-dark")}>
-                        Thêm đơn hàng
+                    <h4 className={cx("card-title")}>Tất cả danh mục</h4>
+                    <Link
+                        to={"/admin/categories/create/0"}
+                        className={cx("btn", "btn-modern", "btn-dark")}
+                    >
+                        Thêm danh mục
                     </Link>
                 </div>
                 {/* End card header */}
@@ -87,50 +87,34 @@ function Orders() {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Đơn hàng</th>
-                                <th>Ngày đặt</th>
-                                <th>Khách hàng</th>
-                                <th>Số điện thoại</th>
-                                <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
+                                <th>Ảnh</th>
+                                <th>Tên danh mục</th>
+                                <th>Tiêu đề</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {orders?.map((order, index) => (
+                            {categories?.map((category, index) => (
                                 <tr
                                     onClick={() => {
                                         navigate(
-                                            `/admin/orders/details/${order.orderId}`
+                                            `/admin/categories/update/${category.categoryId}`
                                         );
                                     }}
                                     className={cx("cursor-pointer")}
-                                    key={order.orderId}
+                                    key={category.categoryId}
                                 >
                                     <td>{index + 1}</td>
-                                    <td>#{order.orderId}</td>
-                                    <td>
-                                        {dayjs(order.createAt).format(
-                                            "DD/MM/YYYY HH:mm"
-                                        )}
-                                    </td>
-                                    <td>{order.customerName}</td>
-                                    <td>{order.customerPhoneNumber}</td>
-                                    <td>
-                                        <Tag
-                                            color={
-                                                renderOrderStatus(
-                                                    order.orderStatus
-                                                ).color
+                                    <td className={cx("py-2")}>
+                                        <img
+                                            src={
+                                                category.image ||
+                                                images.placeholder
                                             }
-                                        >
-                                            {
-                                                renderOrderStatus(
-                                                    order.orderStatus
-                                                ).name
-                                            }
-                                        </Tag>
+                                            alt=""
+                                        />
                                     </td>
-                                    <td>{currencyConvert(order.orderTotal)}</td>
+                                    <td>{category.name}</td>
+                                    <td>{category.title}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -143,4 +127,4 @@ function Orders() {
     );
 }
 
-export default Orders;
+export default Categories;

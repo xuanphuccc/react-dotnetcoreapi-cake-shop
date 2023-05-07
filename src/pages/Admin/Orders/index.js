@@ -19,10 +19,10 @@ function Orders() {
     useEffect(() => {
         const handleGetAllProducts = async () => {
             try {
-                var allOrders = await orderApi.getAll();
+                var response = await orderApi.getAll();
 
-                setOrders(allOrders.data.data);
-                console.log(allOrders);
+                setOrders(response.data?.data ?? []);
+                console.log(response);
             } catch (error) {
                 console.warn(error);
             }
@@ -106,7 +106,7 @@ function Orders() {
                                     className={cx("cursor-pointer")}
                                     key={order.orderId}
                                 >
-                                    <td>{index + 1}</td>
+                                    <td className={cx("py-4")}>{index + 1}</td>
                                     <td>#{order.orderId}</td>
                                     <td>
                                         {dayjs(order.createAt).format(

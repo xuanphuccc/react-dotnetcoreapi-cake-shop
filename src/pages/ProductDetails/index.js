@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./ProductDetails.module.scss";
 import { Col, Row } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import icons from "@/assets/icons";
 
 import "slick-carousel/slick/slick.css";
@@ -10,16 +10,33 @@ import Slider from "react-slick";
 import images from "@/assets/images";
 import { useEffect, useRef, useState } from "react";
 import Dropdown from "@/components/Dropdown";
+import productApi from "@/api/productApi";
+import currencyConvert from "@/services/currencyConvert";
+import Paragraph from "@/components/Paragraph";
+import { useDispatch, useSelector } from "react-redux";
+import cartSlice from "@/components/Layout/MainLayout/Cart/cartSlice";
+import { cartItemsSelector } from "@/redux/selector";
+import drawersSlide from "@/components/Layout/MainLayout/drawersSlide";
 
 const cx = classNames.bind(styles);
 
 function ProductDetails() {
+    const [product, setProduct] = useState({});
+
+    const [cartProductQty, setCartProductQty] = useState(1);
+
     const [slider1, setSlider1] = useState(null);
     const [slider2, setSlider2] = useState(null);
 
     const slider1Ref = useRef();
     const slider2Ref = useRef();
 
+    const { id } = useParams();
+
+    const dispatch = useDispatch();
+    const cartItems = useSelector(cartItemsSelector);
+
+    // ----- Handle config slider -----
     useEffect(() => {
         if (slider1Ref.current) {
             setSlider1(slider1Ref.current);
@@ -29,11 +46,86 @@ function ProductDetails() {
             setSlider2(slider2Ref.current);
         }
     }, [slider1Ref, slider2Ref]);
+    // ----- End handle config slider -----
 
+    // ----- Handle get product -----
+    useEffect(() => {
+        const handleGetProduct = async () => {
+            try {
+                const response = await productApi.get(id);
+
+                console.log(response.data.data);
+
+                setProduct(response.data?.data ?? {});
+            } catch (error) {
+                console.warn(error);
+            }
+        };
+
+        handleGetProduct();
+    }, [id]);
+    // ----- End handle get product -----
+
+    // ----- Handle cart qty change -----
+    const handleIncreaseQty = () => {
+        setCartProductQty((prev) => {
+            if (prev < 20) {
+                return prev + 1;
+            }
+
+            return prev;
+        });
+    };
+
+    const handleDecreaseQty = () => {
+        setCartProductQty((prev) => {
+            if (prev > 1) {
+                return prev - 1;
+            }
+
+            return prev;
+        });
+    };
+    // ----- End Handle cart qty change -----
+
+    // ----- Handle add product to cart -----
+    const handleAddProductToCart = () => {
+        // If the cart does not have this product -> add this product
+        if (!cartItems.some((item) => item.productId === product.productId)) {
+            // Add this product
+            dispatch(
+                cartSlice.actions.addItem({
+                    productId: product.productId,
+                    name: product.name,
+                    title: product.title,
+                    image: product?.images[0]?.image,
+                    qty: cartProductQty,
+                    price: product.price,
+                    wishes: "",
+                })
+            );
+
+            // Open cart
+            dispatch(drawersSlide.actions.openCart());
+        } else {
+            // Else increase item qty
+            dispatch(
+                cartSlice.actions.increaseItemQty({
+                    productId: product.productId,
+                    qty: cartProductQty,
+                })
+            );
+
+            // Open cart
+            dispatch(drawersSlide.actions.openCart());
+        }
+    };
+    // ----- End handle add product to cart -----
     return (
         <div>
             <section className={cx("border-bottom")}>
                 <Row>
+                    {/* ----- Product images ----- */}
                     <Col xs={24} lg={12}>
                         <div
                             className={cx(
@@ -48,34 +140,18 @@ function ProductDetails() {
                                 asNavFor={slider2}
                                 ref={slider1Ref}
                             >
-                                <div>
-                                    <img
-                                        className={cx("slider-item")}
-                                        src={images.home.product1}
-                                        alt=""
-                                    />
-                                </div>
-                                <div>
-                                    <img
-                                        className={cx("slider-item")}
-                                        src={images.home.product2}
-                                        alt=""
-                                    />
-                                </div>
-                                <div>
-                                    <img
-                                        className={cx("slider-item")}
-                                        src={images.home.product3}
-                                        alt=""
-                                    />
-                                </div>
-                                <div>
-                                    <img
-                                        className={cx("slider-item")}
-                                        src={images.home.product4}
-                                        alt=""
-                                    />
-                                </div>
+                                {product?.images?.map((image) => (
+                                    <div key={image.productImageId}>
+                                        <img
+                                            className={cx("slider-item")}
+                                            src={
+                                                image.image ||
+                                                images.placeholder
+                                            }
+                                            alt=""
+                                        />
+                                    </div>
+                                ))}
                             </Slider>
 
                             <div
@@ -90,63 +166,36 @@ function ProductDetails() {
                                     variableWidth={true}
                                     focusOnSelect={true}
                                 >
-                                    <div>
-                                        <img
-                                            className={cx(
-                                                "border",
-                                                "cursor-pointer"
-                                            )}
-                                            height={64}
-                                            width={64}
-                                            src={images.home.product1}
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div>
-                                        <img
-                                            className={cx(
-                                                "border",
-                                                "cursor-pointer",
-                                                "border-start-hide"
-                                            )}
-                                            height={64}
-                                            width={64}
-                                            src={images.home.product2}
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div>
-                                        <img
-                                            className={cx(
-                                                "border",
-                                                "cursor-pointer",
-                                                "border-start-hide"
-                                            )}
-                                            height={64}
-                                            width={64}
-                                            src={images.home.product3}
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div>
-                                        <img
-                                            className={cx(
-                                                "border",
-                                                "cursor-pointer",
-                                                "border-start-hide"
-                                            )}
-                                            height={64}
-                                            width={64}
-                                            src={images.home.product4}
-                                            alt=""
-                                        />
-                                    </div>
+                                    {product?.images?.map((image, index) => (
+                                        <div key={image.productImageId}>
+                                            <img
+                                                className={cx(
+                                                    "border",
+                                                    "cursor-pointer",
+                                                    {
+                                                        "border-start-hide":
+                                                            index !== 0,
+                                                    }
+                                                )}
+                                                height={64}
+                                                width={64}
+                                                src={
+                                                    image.image ||
+                                                    images.placeholder
+                                                }
+                                                alt=""
+                                            />
+                                        </div>
+                                    ))}
                                 </Slider>
                             </div>
                         </div>
                     </Col>
+                    {/* ----- End product images ----- */}
+
                     <Col xs={24} lg={12}>
                         <div className={cx("product-details")}>
+                            {/* ----- Back button ----- */}
                             <div className={cx("d-flex", "align-items-center")}>
                                 <img
                                     className={cx("me-1", "btn-back-icon")}
@@ -155,7 +204,7 @@ function ProductDetails() {
                                 />
 
                                 <Link
-                                    to={"/products#small-cake"}
+                                    to={"/products#cake"}
                                     className={cx(
                                         "btn",
                                         "btn-link",
@@ -165,9 +214,10 @@ function ProductDetails() {
                                         "btn-back"
                                     )}
                                 >
-                                    Bánh sinh nhật
+                                    {product?.category?.name || "Sản phẩm"}
                                 </Link>
                             </div>
+                            {/* ----- End back button ----- */}
 
                             <h1
                                 className={cx(
@@ -177,7 +227,7 @@ function ProductDetails() {
                                     "font-secondary"
                                 )}
                             >
-                                A Gentle Blend
+                                {product?.name}
                             </h1>
 
                             {/* ----- Add to cart controls ----- */}
@@ -190,22 +240,35 @@ function ProductDetails() {
                                 )}
                             >
                                 <div className={cx("d-flex", "me-4", "mb-4")}>
-                                    <button className={cx("btn", "btn-icon")}>
+                                    <button
+                                        onClick={handleDecreaseQty}
+                                        className={cx("btn", "btn-icon")}
+                                    >
                                         <img src={icons.minus} alt="" />
                                     </button>
+
                                     <p className={cx("qty-number", "mx-1")}>
-                                        1
+                                        {cartProductQty}
                                     </p>
-                                    <button className={cx("btn", "btn-icon")}>
+
+                                    <button
+                                        onClick={handleIncreaseQty}
+                                        className={cx("btn", "btn-icon")}
+                                    >
                                         <img src={icons.plus} alt="" />
                                     </button>
                                 </div>
                                 <button
+                                    onClick={handleAddProductToCart}
                                     className={cx("btn", "btn-dark", "mb-4")}
                                 >
                                     <span>Thêm vào giỏ</span>
-                                    <span> * </span>
-                                    <span>515.000đ</span>
+                                    <span> • </span>
+                                    <span>
+                                        {currencyConvert(
+                                            product?.price * cartProductQty
+                                        )}
+                                    </span>
                                 </button>
                             </div>
                             {/* ----- End Add to cart controls ----- */}
@@ -221,235 +284,202 @@ function ProductDetails() {
                                             "py-2"
                                         )}
                                     >
-                                        Cà phê & Cốt dừa
+                                        {product?.title}
                                     </p>
-                                    <p
+                                    <div
                                         className={cx(
                                             "fs-18",
                                             "font-primary",
                                             "pt-2"
                                         )}
                                     >
-                                        Lấy cảm hứng từ những hương vị quen
-                                        thuộc, A Gentle Blend là sự kết hợp hài
-                                        hoà giữa lớp kem mousse cà phê rang xay
-                                        đậm đà, cùng lớp kem dừa thơm ngậy.
-                                    </p>
-                                    <p
-                                        className={cx(
-                                            "fs-18",
-                                            "font-primary",
-                                            "pt-2"
-                                        )}
-                                    >
-                                        Với vẻ ngoài tinh tế được bao phủ bởi
-                                        lớp nhung làm từ bơ cacao và trang trí
-                                        bởi những chiếc lông vũ làm từ sô-cô-la
-                                        nguyên chất. Đây là một chiếc bánh có vị
-                                        ngọt vừa phải và rất phù hợp với những
-                                        người yêu thích cà phê.
-                                    </p>
+                                        <Paragraph
+                                            value={product?.description}
+                                        />
+                                    </div>
                                 </div>
                                 {/* ----- End Description ----- */}
 
-                                {/* ----- Flavor ----- */}
-                                <section className={cx("py-2")}>
-                                    <div
-                                        className={cx(
-                                            "border-top",
-                                            "border-gray",
-                                            "pt-4"
-                                        )}
-                                    >
-                                        <p
+                                {/* ----- Taste ----- */}
+                                {product?.taste && (
+                                    <section className={cx("py-2")}>
+                                        <div
                                             className={cx(
-                                                "font-primary",
-                                                "fs-16",
-                                                "fw-600",
-                                                "text-uppercase",
-                                                "mb-2"
+                                                "border-top",
+                                                "border-gray",
+                                                "pt-4"
                                             )}
                                         >
-                                            Cảm giác bánh
-                                        </p>
-                                        <span
-                                            className={cx(
-                                                "badge",
-                                                "fs-18",
-                                                "badge-outline",
-                                                "badge-lg",
-                                                "badge-text"
-                                            )}
-                                        >
-                                            Đậm đà
-                                        </span>
-                                        <span
-                                            className={cx(
-                                                "badge",
-                                                "fs-18",
-                                                "badge-outline",
-                                                "badge-lg",
-                                                "badge-text"
-                                            )}
-                                        >
-                                            Thơm ngậy
-                                        </span>
-                                    </div>
-                                </section>
-                                {/* ----- End Flavor ----- */}
+                                            <p
+                                                className={cx(
+                                                    "font-primary",
+                                                    "fs-16",
+                                                    "fw-600",
+                                                    "text-uppercase",
+                                                    "mb-2"
+                                                )}
+                                            >
+                                                Cảm giác bánh
+                                            </p>
+                                            {product?.taste
+                                                ?.split(", ")
+                                                ?.map((item, index) => (
+                                                    <span
+                                                        key={index}
+                                                        className={cx(
+                                                            "badge",
+                                                            "fs-18",
+                                                            "badge-outline",
+                                                            "badge-lg",
+                                                            "badge-text"
+                                                        )}
+                                                    >
+                                                        {item}
+                                                    </span>
+                                                ))}
+                                        </div>
+                                    </section>
+                                )}
+                                {/* ----- End Taste ----- */}
 
                                 {/* ----- Structure ----- */}
-                                <section
-                                    className={cx(
-                                        "py-2",
-                                        "product-details-section"
-                                    )}
-                                >
-                                    <div
+                                {product?.texture && (
+                                    <section
                                         className={cx(
-                                            "border-top",
-                                            "border-gray",
-                                            "pt-4"
+                                            "py-2",
+                                            "product-details-section"
                                         )}
                                     >
-                                        <p
+                                        <div
                                             className={cx(
-                                                "font-primary",
-                                                "fs-16",
-                                                "fw-600",
-                                                "text-uppercase",
-                                                "mb-2"
+                                                "border-top",
+                                                "border-gray",
+                                                "pt-4"
                                             )}
                                         >
-                                            Cấu trúc vị bánh
-                                        </p>
+                                            <p
+                                                className={cx(
+                                                    "font-primary",
+                                                    "fs-16",
+                                                    "fw-600",
+                                                    "text-uppercase",
+                                                    "mb-2"
+                                                )}
+                                            >
+                                                Cấu trúc vị bánh
+                                            </p>
 
-                                        <ul>
-                                            <li>
-                                                Lớp 01: Milk Chocolate Velvet
-                                                Spray
-                                            </li>
-                                            <li>Lớp 02: Coffee Mousse</li>
-                                            <li>Lớp 03: Coffee Sponge</li>
-                                            <li>Lớp 04: Coconut Cream</li>
-                                            <li>Lớp 05: Coffee Sponge</li>
-                                        </ul>
-                                    </div>
-                                </section>
+                                            <Paragraph
+                                                value={product?.texture}
+                                            />
+                                        </div>
+                                    </section>
+                                )}
                                 {/* ----- End Structure ----- */}
 
                                 {/* ----- Size ----- */}
-                                <section className={cx("py-2")}>
-                                    <div
-                                        className={cx(
-                                            "border-top",
-                                            "border-gray",
-                                            "pt-4"
-                                        )}
-                                    >
-                                        <p
+                                {product?.size && (
+                                    <section className={cx("py-2")}>
+                                        <div
                                             className={cx(
-                                                "font-primary",
-                                                "fs-16",
-                                                "fw-600",
-                                                "text-uppercase",
-                                                "mb-2"
+                                                "border-top",
+                                                "border-gray",
+                                                "pt-4"
                                             )}
                                         >
-                                            Kích thước
-                                        </p>
+                                            <p
+                                                className={cx(
+                                                    "font-primary",
+                                                    "fs-16",
+                                                    "fw-600",
+                                                    "text-uppercase",
+                                                    "mb-2"
+                                                )}
+                                            >
+                                                Kích thước
+                                            </p>
 
-                                        <p
-                                            className={cx(
-                                                "fs-18",
-                                                "font-primary"
-                                            )}
-                                        >
-                                            Đường kính: 18cm | Chiều cao: 5cm |
-                                            Dành cho 5-10 người ăn
-                                        </p>
-                                    </div>
-                                </section>
+                                            <p
+                                                className={cx(
+                                                    "fs-18",
+                                                    "font-primary"
+                                                )}
+                                            >
+                                                {product?.size}
+                                            </p>
+                                        </div>
+                                    </section>
+                                )}
                                 {/* ----- End Size ----- */}
 
                                 {/* ----- Accessory ----- */}
-                                <section
-                                    className={cx(
-                                        "py-2",
-                                        "product-details-section"
-                                    )}
-                                >
-                                    <div
+                                {product?.accessories && (
+                                    <section
                                         className={cx(
-                                            "border-top",
-                                            "border-gray",
-                                            "pt-4"
+                                            "py-2",
+                                            "product-details-section"
                                         )}
                                     >
-                                        <p
+                                        <div
                                             className={cx(
-                                                "font-primary",
-                                                "fs-16",
-                                                "fw-600",
-                                                "text-uppercase",
-                                                "mb-2"
+                                                "border-top",
+                                                "border-gray",
+                                                "pt-4"
                                             )}
                                         >
-                                            Phụ kiện tặng kèm
-                                        </p>
+                                            <p
+                                                className={cx(
+                                                    "font-primary",
+                                                    "fs-16",
+                                                    "fw-600",
+                                                    "text-uppercase",
+                                                    "mb-2"
+                                                )}
+                                            >
+                                                Phụ kiện tặng kèm
+                                            </p>
 
-                                        <ul>
-                                            <li>01 Chiếc nến sinh nhật</li>
-                                            <li>
-                                                01 Bộ đĩa và dĩa dành cho 10
-                                                người
-                                            </li>
-                                            <li>01 Dao cắt bánh</li>
-                                        </ul>
-                                    </div>
-                                </section>
+                                            <Paragraph
+                                                value={product?.accessories}
+                                            />
+                                        </div>
+                                    </section>
+                                )}
                                 {/* ----- End Accessory ----- */}
 
                                 {/* ----- Instruction ----- */}
-                                <section
-                                    className={cx(
-                                        "py-2",
-                                        "product-details-section"
-                                    )}
-                                >
-                                    <div
+                                {product?.instructions && (
+                                    <section
                                         className={cx(
-                                            "border-top",
-                                            "border-gray",
-                                            "pt-4"
+                                            "py-2",
+                                            "product-details-section"
                                         )}
                                     >
-                                        <p
+                                        <div
                                             className={cx(
-                                                "font-primary",
-                                                "fs-16",
-                                                "fw-600",
-                                                "text-uppercase",
-                                                "mb-2"
+                                                "border-top",
+                                                "border-gray",
+                                                "pt-4"
                                             )}
                                         >
-                                            Hướng dẫn sử dụng
-                                        </p>
+                                            <p
+                                                className={cx(
+                                                    "font-primary",
+                                                    "fs-16",
+                                                    "fw-600",
+                                                    "text-uppercase",
+                                                    "mb-2"
+                                                )}
+                                            >
+                                                Hướng dẫn sử dụng
+                                            </p>
 
-                                        <ul>
-                                            <li>
-                                                Luôn giữ bánh trong hộp kín &
-                                                bảo quản trong ngăn mát tủ lạnh
-                                            </li>
-                                            <li>
-                                                Không nên để bánh ở nhiệt độ
-                                                phòng quá 30 phút (Bánh sẽ bị
-                                                chảy)
-                                            </li>
-                                            <li>Sử dụng trong vòng 03 ngày</li>
-                                        </ul>
-                                    </div>
-                                </section>
+                                            <Paragraph
+                                                value={product?.instructions}
+                                            />
+                                        </div>
+                                    </section>
+                                )}
                                 {/* ----- End Instruction ----- */}
                             </div>
                         </div>

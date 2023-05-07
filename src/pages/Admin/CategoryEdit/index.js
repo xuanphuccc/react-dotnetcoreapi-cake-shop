@@ -8,11 +8,13 @@ import images from "@/assets/images";
 import { useEffect, useRef, useState } from "react";
 import { uploadFile } from "@/firebase/service";
 import categoryApi from "@/api/categoryApi";
+import Validator from "@/validator/validator";
 
 const cx = classNames.bind(styles);
 
 function CategoryEdit() {
     const [loading, setLoading] = useState(false);
+
     const [categoryName, setCategoryName] = useState("");
     const [categoryTitle, setCategoryTitle] = useState("");
     const [categoryDesc, setCategoryDesc] = useState("");
@@ -21,6 +23,11 @@ function CategoryEdit() {
         preview: "",
     });
 
+    // Error messages
+    const [categoryNameError, setCategoryNameError] = useState("");
+    const [categoryTitleError, setCategoryTitleError] = useState("");
+    const [categoryImageError, setCategoryImageError] = useState("");
+
     const inputImageRef = useRef();
     const navigate = useNavigate();
     const { action, id } = useParams();
@@ -28,10 +35,16 @@ function CategoryEdit() {
     // ----- Handle input change -----
     const handleCategoryNameChange = (e) => {
         setCategoryName(e.target.value);
+
+        // Clear error
+        setCategoryNameError("");
     };
 
     const handleCategoryTitleChange = (e) => {
         setCategoryTitle(e.target.value);
+
+        // Clear error
+        setCategoryTitleError("");
     };
 
     const handleCategoryDescChange = (value) => {
@@ -45,8 +58,46 @@ function CategoryEdit() {
                 preview: URL.createObjectURL(e.target.files[0]),
             });
         }
+
+        // CLear error
+        setCategoryImageError("");
     };
     // ----- End Handle input change -----
+
+    // ----- Handle validate input -----
+    const handleValidateCategoryName = () => {
+        return Validator({
+            setErrorMessage: setCategoryNameError,
+            rules: [
+                Validator.isRequired(
+                    categoryName,
+                    "Vui lòng nhập tên danh mục"
+                ),
+            ],
+        });
+    };
+
+    const handleValidateCategoryTitle = () => {
+        return Validator({
+            setErrorMessage: setCategoryTitleError,
+            rules: [
+                Validator.isRequired(categoryTitle, "Vui lòng nhập tiêu đề"),
+            ],
+        });
+    };
+
+    const handleValidateCategoryImage = () => {
+        return Validator({
+            setErrorMessage: setCategoryImageError,
+            rules: [
+                Validator.isRequired(
+                    categoryImage.preview,
+                    "Vui lòng chọn ảnh danh mục"
+                ),
+            ],
+        });
+    };
+    // ----- End handle validate input -----
 
     // ----- Handle create -----
     const generateData = async () => {
@@ -72,7 +123,11 @@ function CategoryEdit() {
     const handleCreateCategory = async (e) => {
         e.preventDefault();
 
-        if (categoryName) {
+        if (
+            handleValidateCategoryName() &&
+            handleValidateCategoryTitle() &&
+            handleValidateCategoryImage()
+        ) {
             setLoading(true);
 
             try {
@@ -100,9 +155,10 @@ function CategoryEdit() {
             if (action === "update" && id) {
                 try {
                     const response = await categoryApi.get(id);
-                    const category = response.data.data;
+                    const category = response.data?.data ?? {};
 
                     console.log(category);
+
                     setCategoryName(category.name);
                     setCategoryTitle(category.title);
                     setCategoryDesc(category.description);
@@ -122,7 +178,13 @@ function CategoryEdit() {
     const handleUpdateCategory = async (e) => {
         e.preventDefault();
 
-        if (action === "update" && id && categoryName) {
+        if (
+            action === "update" &&
+            id &&
+            handleValidateCategoryName() &&
+            handleValidateCategoryTitle() &&
+            handleValidateCategoryImage()
+        ) {
             setLoading(true);
 
             try {
@@ -209,7 +271,11 @@ function CategoryEdit() {
                         {/* End card header */}
 
                         <form>
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: categoryNameError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-0", "pb-1")}
                                     htmlFor=""
@@ -217,13 +283,22 @@ function CategoryEdit() {
                                     Tên danh mục
                                 </label>
                                 <Input
-                                    onChange={handleCategoryNameChange}
                                     value={categoryName}
+                                    onChange={handleCategoryNameChange}
+                                    onBlur={handleValidateCategoryName}
                                     placeholder="Nhập tên danh mục"
+                                    status={categoryNameError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {categoryNameError}
+                                </p>
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: categoryTitleError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-0", "pb-1")}
                                     htmlFor=""
@@ -231,10 +306,15 @@ function CategoryEdit() {
                                     Tiêu đề
                                 </label>
                                 <Input
-                                    onChange={handleCategoryTitleChange}
                                     value={categoryTitle}
+                                    onChange={handleCategoryTitleChange}
+                                    onBlur={handleValidateCategoryTitle}
                                     placeholder="Nhập tiêu đề"
+                                    status={categoryTitleError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {categoryTitleError}
+                                </p>
                             </div>
 
                             <div className={cx("form-group")}>
@@ -251,7 +331,11 @@ function CategoryEdit() {
                                 />
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: categoryImageError,
+                                })}
+                            >
                                 <label
                                     className={cx(
                                         "form-label",
@@ -277,11 +361,15 @@ function CategoryEdit() {
                                         inputImageRef.current.click();
                                     }}
                                     icon={<Unicons.UilUpload size="14" />}
+                                    danger={categoryImageError}
                                 >
                                     <span className={cx("ps-2")}>
                                         Tải ảnh lên
                                     </span>
                                 </Button>
+                                <p className={cx("error-text")}>
+                                    {categoryImageError}
+                                </p>
                             </div>
 
                             <div className={cx("pt-5")}>
@@ -305,6 +393,7 @@ function CategoryEdit() {
                                                     "btn-modern",
                                                     "btn-warning"
                                                 )}
+                                                title="Nhấn hai lần để xoá"
                                             >
                                                 Xoá
                                             </button>

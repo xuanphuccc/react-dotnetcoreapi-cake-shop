@@ -7,6 +7,7 @@ import images from "@/assets/images";
 import { useEffect, useRef, useState } from "react";
 import { uploadFile } from "@/firebase/service";
 import shippingMethodApi from "@/api/shippingMethodApi";
+import Validator from "@/validator/validator";
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +25,12 @@ function ShippingMethodEdit() {
     });
     const [shippingIsDefault, setShippingIsDefault] = useState(false);
 
+    // Error messages
+    const [nameError, setNameError] = useState("");
+    const [initialDistanceError, setInitialDistanceError] = useState("");
+    const [initialChargeError, setInitialChargeError] = useState("");
+    const [additionalChargeError, setAdditionalChargeError] = useState("");
+
     const inputImageRef = useRef();
     const navigate = useNavigate();
     const { action, id } = useParams();
@@ -31,18 +38,30 @@ function ShippingMethodEdit() {
     // ----- Handle input change -----
     const handleShippingNameChange = (e) => {
         setShippingName(e.target.value);
+
+        // Clear error
+        setNameError("");
     };
 
     const handleShippingInitialDistanceChange = (e) => {
         setShippingInitialDistance(e.target.value);
+
+        // Clear error
+        setInitialDistanceError("");
     };
 
     const handleShippingInitialChargeChange = (e) => {
         setShippingInitialCharge(e.target.value);
+
+        // Clear error
+        setInitialChargeError("");
     };
 
     const handleShippingAdditionalChargeChange = (e) => {
         setShippingAdditionalCharge(e.target.value);
+
+        // Clear error
+        setAdditionalChargeError("");
     };
 
     const handleShippingLogoChange = (e) => {
@@ -56,6 +75,56 @@ function ShippingMethodEdit() {
         setShippingIsDefault(e.target.value);
     };
     // ----- End Handle input change -----
+
+    // ----- Handle validate input -----
+    const handleValidateName = () => {
+        return Validator({
+            setErrorMessage: setNameError,
+            rules: [
+                Validator.isRequired(
+                    shippingName,
+                    "Vui lòng nhập tên phương thức vận chuyển"
+                ),
+            ],
+        });
+    };
+
+    const handleValidateInitialDistance = () => {
+        return Validator({
+            setErrorMessage: setInitialDistanceError,
+            rules: [
+                Validator.isRequired(
+                    shippingInitialDistance,
+                    "Vui lòng nhập số km đầu"
+                ),
+            ],
+        });
+    };
+
+    const handleValidateInitialCharge = () => {
+        return Validator({
+            setErrorMessage: setInitialChargeError,
+            rules: [
+                Validator.isRequired(
+                    shippingInitialCharge,
+                    "Vui lòng nhập giá km đầu"
+                ),
+            ],
+        });
+    };
+
+    const handleValidateAdditionalCharge = () => {
+        return Validator({
+            setErrorMessage: setAdditionalChargeError,
+            rules: [
+                Validator.isRequired(
+                    shippingAdditionalCharge,
+                    "Vui lòng nhập giá mỗi km tiếp theo"
+                ),
+            ],
+        });
+    };
+    // ----- End Handle validate input -----
 
     // ----- Handle create -----
     const generateData = async () => {
@@ -84,10 +153,10 @@ function ShippingMethodEdit() {
         e.preventDefault();
 
         if (
-            shippingName &&
-            shippingInitialCharge &&
-            shippingInitialDistance &&
-            shippingAdditionalCharge
+            handleValidateName() &&
+            handleValidateInitialDistance() &&
+            handleValidateInitialCharge() &&
+            handleValidateAdditionalCharge()
         ) {
             setLoading(true);
 
@@ -116,7 +185,8 @@ function ShippingMethodEdit() {
             if (action === "update" && id) {
                 try {
                     const response = await shippingMethodApi.get(id);
-                    const shippingMethod = response.data.data;
+                    const shippingMethod = response.data?.data ?? {};
+
                     console.log(shippingMethod);
 
                     setShippingName(shippingMethod.name);
@@ -145,10 +215,10 @@ function ShippingMethodEdit() {
         if (
             action === "update" &&
             id &&
-            shippingName &&
-            shippingInitialCharge &&
-            shippingInitialDistance &&
-            shippingAdditionalCharge
+            handleValidateName() &&
+            handleValidateInitialDistance() &&
+            handleValidateInitialCharge() &&
+            handleValidateAdditionalCharge()
         ) {
             setLoading(true);
 
@@ -240,7 +310,11 @@ function ShippingMethodEdit() {
                         {/* End card header */}
 
                         <form>
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: nameError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-0", "pb-1")}
                                     htmlFor=""
@@ -248,13 +322,20 @@ function ShippingMethodEdit() {
                                     Tên phương thức vận chuyển
                                 </label>
                                 <Input
-                                    onChange={handleShippingNameChange}
                                     value={shippingName}
+                                    onChange={handleShippingNameChange}
+                                    onBlur={handleValidateName}
                                     placeholder="Nhập tên phương thức vận chuyển"
+                                    status={nameError && "error"}
                                 />
+                                <p className={cx("error-text")}>{nameError}</p>
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: initialDistanceError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-2", "pb-1")}
                                     htmlFor=""
@@ -262,15 +343,25 @@ function ShippingMethodEdit() {
                                     Số km đầu
                                 </label>
                                 <Input
+                                    value={shippingInitialDistance}
                                     onChange={
                                         handleShippingInitialDistanceChange
                                     }
-                                    value={shippingInitialDistance}
+                                    onBlur={handleValidateInitialDistance}
+                                    type="number"
                                     placeholder="Nhập số km đầu"
+                                    status={initialDistanceError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {initialDistanceError}
+                                </p>
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: initialChargeError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-2", "pb-1")}
                                     htmlFor=""
@@ -278,13 +369,23 @@ function ShippingMethodEdit() {
                                     Giá km đầu
                                 </label>
                                 <Input
-                                    onChange={handleShippingInitialChargeChange}
                                     value={shippingInitialCharge}
+                                    onChange={handleShippingInitialChargeChange}
+                                    onBlur={handleValidateInitialCharge}
+                                    type="number"
                                     placeholder="Nhập giá km đầu"
+                                    status={initialChargeError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {initialChargeError}
+                                </p>
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: additionalChargeError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-2", "pb-1")}
                                     htmlFor=""
@@ -292,12 +393,18 @@ function ShippingMethodEdit() {
                                     Giá mỗi km tiếp theo
                                 </label>
                                 <Input
+                                    value={shippingAdditionalCharge}
                                     onChange={
                                         handleShippingAdditionalChargeChange
                                     }
-                                    value={shippingAdditionalCharge}
+                                    onBlur={handleValidateAdditionalCharge}
+                                    type="number"
                                     placeholder="Nhập giá mỗi km tiếp theo"
+                                    status={additionalChargeError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {additionalChargeError}
+                                </p>
                             </div>
 
                             <div className={cx("form-group")}>

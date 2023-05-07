@@ -9,6 +9,10 @@ const shippingMethodApi = {
         const url = `/shippingmethods/${id}`;
         return axiosClient.get(url);
     },
+    getDefault() {
+        const url = `/shippingmethods/default`;
+        return axiosClient.get(url);
+    },
     create(data) {
         const url = "/shippingmethods";
         return axiosClient.post(url, data);

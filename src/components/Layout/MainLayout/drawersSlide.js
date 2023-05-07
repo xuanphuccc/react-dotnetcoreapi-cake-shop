@@ -20,10 +20,10 @@ export default createSlice({
         openCart: (state) => {
             state.isOpenCart = true;
         },
-        openStepDelivery: (state) => {
+        openCartDelivery: (state) => {
             state.cartStep = "delivery";
         },
-        openStepCart: (state) => {
+        openCartDetail: (state) => {
             state.cartStep = "cart";
         },
     },

@@ -32,7 +32,8 @@ function Menu() {
                 {/* ----- Menu header ----- */}
                 <div
                     className={cx(
-                        "px-32",
+                        "px-4",
+                        "px-sm-32",
                         "py-4",
                         "d-flex",
                         "justify-space-between",

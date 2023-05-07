@@ -17,10 +17,10 @@ function ShippingMethods() {
     useEffect(() => {
         const handleGetAllShippingMethods = async () => {
             try {
-                const allShippingMethods = await shippingMethodApi.getAll();
+                const response = await shippingMethodApi.getAll();
 
-                setShippingMethods(allShippingMethods.data.data);
-                console.log(allShippingMethods.data);
+                setShippingMethods(response.data?.data ?? []);
+                console.log(response.data);
             } catch (error) {
                 console.warn(error);
             }

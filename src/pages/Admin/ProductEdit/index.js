@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import productApi from "@/api/productApi";
 import { uploadFile } from "@/firebase/service";
 import categoryApi from "@/api/categoryApi";
+import Validator from "@/validator/validator";
 
 const cx = classNames.bind(styles);
 
@@ -30,7 +31,7 @@ function ProductEdit() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productDesc, setProductDesc] = useState("");
-    const [productIngredients, setProductIngredients] = useState("");
+    const [productTitle, setProductTitle] = useState("");
     const [productTaste, setProductTaste] = useState("");
     const [productTexture, setProductTexture] = useState("");
     const [productSize, setProductSize] = useState("");
@@ -39,6 +40,15 @@ function ProductEdit() {
     const [productIsDisplay, setProductIsDisplay] = useState(true);
     const [productCategoryId, setProductCategoryId] = useState(null);
     const [productImages, setProductImages] = useState([]);
+
+    // Error messages
+    const [productNameError, setProductNameError] = useState("");
+    const [productPriceError, setProductPriceError] = useState("");
+    const [productTitleError, setProductTitleError] = useState("");
+    const [productImagesError, setProductImagesError] = useState("");
+
+    // Orders of this product
+    const [productHasOrders, setProductHasOrders] = useState(0);
 
     const inputImageRef = useRef();
     const navigate = useNavigate();
@@ -55,7 +65,7 @@ function ProductEdit() {
                 console.log(categories);
 
                 setAllCategories(
-                    categories.map((item) => ({
+                    categories?.map((item) => ({
                         label: item.name,
                         value: item.categoryId + "",
                     }))
@@ -72,18 +82,27 @@ function ProductEdit() {
     // ----- Handle input change -----
     const handleProductNameChange = (e) => {
         setProductName(e.target.value);
+
+        // Clear error
+        setProductNameError("");
     };
 
     const handleProductPriceChange = (e) => {
         setProductPrice(e.target.value);
+
+        // Clear error
+        setProductPriceError("");
     };
 
     const handleProductDescChange = (value) => {
         setProductDesc(value);
     };
 
-    const handleProductIngredientsChange = (e) => {
-        setProductIngredients(e.target.value);
+    const handleProductTitleChange = (e) => {
+        setProductTitle(e.target.value);
+
+        // Clear error
+        setProductTitleError("");
     };
 
     const handleProductTasteChange = (e) => {
@@ -117,7 +136,6 @@ function ProductEdit() {
 
     // ----- Handle edit product images -----
     const handleProductImagesChange = (e) => {
-        console.log(e.target.files);
         if (e.target?.files?.length > 0) {
             const inputImages = Array.from(e.target.files);
 
@@ -129,9 +147,10 @@ function ProductEdit() {
             });
 
             setProductImages((prev) => [...prev, ...resultImages]);
-
-            console.log(resultImages);
         }
+
+        // Clear error
+        setProductImagesError("");
     };
 
     const handleRemoveProductImage = (image) => {
@@ -141,12 +160,53 @@ function ProductEdit() {
     };
     // ----- End Handle edit product images -----
 
+    // ----- Handle validate input -----
+    const handleValidateProductName = () => {
+        return Validator({
+            setErrorMessage: setProductNameError,
+            rules: [
+                Validator.isRequired(productName, "Vui lòng nhập tên sản phẩm"),
+            ],
+        });
+    };
+
+    const handleValidateProductPrice = () => {
+        return Validator({
+            setErrorMessage: setProductPriceError,
+            rules: [
+                Validator.isRequired(productPrice, "Vui lòng nhập giá bán"),
+            ],
+        });
+    };
+
+    const handleValidateProductTitle = () => {
+        return Validator({
+            setErrorMessage: setProductTitleError,
+            rules: [
+                Validator.isRequired(productTitle, "Vui lòng nhập tiêu đề"),
+            ],
+        });
+    };
+
+    const handleValidateProductImages = () => {
+        return Validator({
+            setErrorMessage: setProductImagesError,
+            rules: [
+                Validator.isRequired(
+                    productImages,
+                    "Vui lòng chọn ảnh sản phẩm"
+                ),
+            ],
+        });
+    };
+    // ----- End handle validate input -----
+
     // ----- Handle create -----
     const generateData = async () => {
         const data = {
             name: productName,
             price: Number(productPrice),
-            ingredients: productIngredients,
+            title: productTitle,
             description: productDesc,
             taste: productTaste,
             texture: productTexture,
@@ -182,11 +242,10 @@ function ProductEdit() {
         e.preventDefault();
 
         if (
-            productName &&
-            productPrice &&
-            productIngredients &&
-            productSize &&
-            productImages.length > 0
+            handleValidateProductName() &&
+            handleValidateProductPrice() &&
+            handleValidateProductTitle() &&
+            handleValidateProductImages()
         ) {
             setLoading(true);
 
@@ -195,7 +254,7 @@ function ProductEdit() {
 
                 const response = await productApi.create(data);
 
-                console.log("response: ", response);
+                console.log(response);
 
                 setTimeout(() => {
                     setLoading(false);
@@ -215,13 +274,14 @@ function ProductEdit() {
             if (action === "update" && id) {
                 try {
                     const response = await productApi.get(id);
-                    const product = response.data?.data;
+                    const product = response.data?.data ?? {};
+
                     console.log(product);
 
                     setProductName(product.name);
                     setProductPrice(product.price);
                     setProductDesc(product.description);
-                    setProductIngredients(product.ingredients);
+                    setProductTitle(product.title);
                     setProductTaste(product.taste);
                     setProductTexture(product.texture);
                     setProductSize(product.size);
@@ -229,16 +289,18 @@ function ProductEdit() {
                     setProductInstruction(product.instructions);
                     setProductIsDisplay(product.isDisplay);
                     setProductCategoryId(
-                        product.category?.categoryId + "" ?? null
+                        product?.category?.categoryId + "" ?? null
                     );
                     setProductImages(() => {
-                        if (product.images && Array.isArray(product.images)) {
-                            return product.images.map((img) => ({
-                                image: img.image,
-                                preview: img.image,
+                        if (Array.isArray(product.images)) {
+                            return product?.images?.map((img) => ({
+                                image: img?.image,
+                                preview: img?.image,
                             }));
                         }
                     });
+
+                    setProductHasOrders(product.hasOrders);
                 } catch (error) {
                     console.warn(error);
                 }
@@ -254,11 +316,10 @@ function ProductEdit() {
         if (
             action === "update" &&
             id &&
-            productName &&
-            productPrice &&
-            productIngredients &&
-            productSize &&
-            productImages.length > 0
+            handleValidateProductName() &&
+            handleValidateProductPrice() &&
+            handleValidateProductTitle() &&
+            handleValidateProductImages()
         ) {
             setLoading(true);
 
@@ -347,7 +408,11 @@ function ProductEdit() {
                             </h4>
                             {/* End card header */}
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: productNameError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-0", "pb-1")}
                                     htmlFor=""
@@ -355,12 +420,21 @@ function ProductEdit() {
                                     Tên sản phẩm
                                 </label>
                                 <Input
-                                    onChange={handleProductNameChange}
                                     value={productName}
+                                    onChange={handleProductNameChange}
+                                    onBlur={handleValidateProductName}
                                     placeholder="Nhập tên sản phẩm"
+                                    status={productNameError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {productNameError}
+                                </p>
                             </div>
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: productPriceError,
+                                })}
+                            >
                                 <label
                                     className={cx("form-label", "pt-2", "pb-1")}
                                     htmlFor=""
@@ -368,12 +442,41 @@ function ProductEdit() {
                                     Giá bán
                                 </label>
                                 <Input
-                                    onChange={handleProductPriceChange}
                                     value={productPrice}
+                                    onChange={handleProductPriceChange}
+                                    onBlur={handleValidateProductPrice}
                                     type="number"
                                     placeholder="Nhập giá bán"
+                                    status={productPriceError && "error"}
                                 />
+                                <p className={cx("error-text")}>
+                                    {productPriceError}
+                                </p>
                             </div>
+
+                            <div
+                                className={cx("form-group", {
+                                    error: productTitleError,
+                                })}
+                            >
+                                <label
+                                    className={cx("form-label", "pt-2", "pb-1")}
+                                    htmlFor=""
+                                >
+                                    Tiêu đề
+                                </label>
+                                <Input
+                                    value={productTitle}
+                                    onChange={handleProductTitleChange}
+                                    onBlur={handleValidateProductTitle}
+                                    placeholder="Nhập tiêu đề"
+                                    status={productTitleError && "error"}
+                                />
+                                <p className={cx("error-text")}>
+                                    {productTitleError}
+                                </p>
+                            </div>
+
                             <div className={cx("form-group")}>
                                 <label
                                     className={cx("form-label", "pt-2", "pb-1")}
@@ -388,7 +491,11 @@ function ProductEdit() {
                                 />
                             </div>
 
-                            <div className={cx("form-group")}>
+                            <div
+                                className={cx("form-group", {
+                                    error: productImagesError,
+                                })}
+                            >
                                 <label
                                     className={cx(
                                         "form-label",
@@ -418,11 +525,16 @@ function ProductEdit() {
                                         }
                                     }}
                                     icon={<Unicons.UilUpload size="14" />}
+                                    danger={productImagesError}
                                 >
                                     <span className={cx("ps-2")}>
                                         Tải ảnh lên
                                     </span>
                                 </Button>
+
+                                <p className={cx("error-text")}>
+                                    {productImagesError}
+                                </p>
 
                                 {/* Products images preview */}
                                 {productImages && productImages.length > 0 && (
@@ -477,7 +589,7 @@ function ProductEdit() {
                         <div className={cx("card", "mt-4")}>
                             {/* Card header */}
                             <h4 className={cx("card-title", "pb-2")}>
-                                Thành phần & hương vị
+                                Hương vị
                                 <span className={cx("card-icon")}>
                                     <Unicons.UilAnchor
                                         color="#0958d9"
@@ -492,25 +604,12 @@ function ProductEdit() {
                                     className={cx("form-label", "pt-0", "pb-1")}
                                     htmlFor=""
                                 >
-                                    Thành phần
-                                </label>
-                                <Input
-                                    onChange={handleProductIngredientsChange}
-                                    value={productIngredients}
-                                    placeholder="Nhập thành phần"
-                                />
-                            </div>
-                            <div className={cx("form-group")}>
-                                <label
-                                    className={cx("form-label", "pt-2", "pb-1")}
-                                    htmlFor=""
-                                >
                                     Cảm giác bánh
                                 </label>
                                 <Input
                                     onChange={handleProductTasteChange}
                                     value={productTaste}
-                                    placeholder="Nhập cảm giác bánh"
+                                    placeholder="Nhập cảm giác bánh (phân tách bởi dấu ',')"
                                 />
                             </div>
                             <div className={cx("form-group")}>
@@ -597,12 +696,15 @@ function ProductEdit() {
                                                 Cập nhật
                                             </button>
                                             <button
-                                                onClick={handleDeleteProduct}
+                                                onDoubleClick={
+                                                    handleDeleteProduct
+                                                }
                                                 className={cx(
                                                     "btn",
                                                     "btn-modern",
                                                     "btn-warning"
                                                 )}
+                                                disabled={productHasOrders > 0}
                                             >
                                                 Xoá
                                             </button>

@@ -1,9 +1,13 @@
 const { default: axiosClient } = require("./axiosClient");
 
 const categoryApi = {
-    getAll() {
+    getAll(limit) {
         const url = "/categories";
-        return axiosClient.get(url);
+        return axiosClient.get(url, {
+            params: {
+                limit,
+            },
+        });
     },
     get(id) {
         const url = `/categories/${id}`;

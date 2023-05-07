@@ -1,15 +1,8 @@
 .input-group {
     display: flex;
-    border: 1px solid var(--border-gray);
     padding-right: 14px;
-    cursor: pointer;
 
     position: relative;
-}
-
-.input-group:focus .select-list,
-.select-input:focus ~ .select-list {
-    display: block;
 }
 
 .select-input {
@@ -18,7 +11,6 @@
     border: none;
     outline: none;
     padding: 14px 16px;
-    cursor: pointer;
 }
 
 .select-icon {
@@ -49,6 +41,11 @@
     display: none;
 }
 
+.input-group:focus .select-list,
+.select-input:focus ~ .select-list {
+    display: block;
+}
+
 .select-item {
     margin-top: 0;
     padding: 10px 16px;
@@ -56,8 +53,8 @@
     cursor: pointer;
 }
 .select-item:hover {
-    background-color: rgb(242 242 242 / 1);
+    background-color: rgb(242 242 242);
 }
 .select-item.active {
-    background-color: rgb(242 242 242 / 1);
+    background-color: rgb(242 242 242);
 }

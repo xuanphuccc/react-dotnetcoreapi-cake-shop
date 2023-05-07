@@ -3,13 +3,15 @@ import styles from "./Header.module.scss";
 import icons from "@/assets/icons";
 import images from "@/assets/images";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import drawersSlide from "../drawersSlide";
+import { cartItemsSelector } from "@/redux/selector";
 
 const cx = classNames.bind(styles);
 
 function Header() {
     const dispatch = useDispatch();
+    const cartItems = useSelector(cartItemsSelector);
 
     const handleOpenMenu = () => {
         dispatch(drawersSlide.actions.openMenu());
@@ -112,7 +114,12 @@ function Header() {
                         <span className={cx("ms-2", "d-none", "d-lg-inline")}>
                             Giỏ
                         </span>
-                        <span className={cx("badge", "ms-2")}>1</span>
+
+                        {cartItems.length > 0 && (
+                            <span className={cx("badge", "ms-2")}>
+                                {cartItems.length}
+                            </span>
+                        )}
                     </span>
                 </span>
             </nav>

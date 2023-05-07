@@ -3,10 +3,29 @@ import styles from "./Home.module.scss";
 import images from "@/assets/images";
 import { Link } from "react-router-dom";
 import { Col, Row } from "antd";
+import { useEffect, useState } from "react";
+import categoryApi from "@/api/categoryApi";
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const handleGetInformations = async () => {
+            try {
+                const response = await Promise.all([categoryApi.getAll(3)]);
+                console.log(response);
+
+                setCategories(response[0].data.data);
+            } catch (error) {
+                console.warn(error);
+            }
+        };
+
+        handleGetInformations();
+    }, []);
+
     return (
         <div className={cx("home-wrap")}>
             {/* Home cover */}
@@ -125,127 +144,61 @@ function Home() {
             {/* Categories section */}
             <section className={cx("border-bottom")}>
                 <Row>
-                    <Col xs={24} lg={8}>
-                        <Link
-                            to={"/products/#cake"}
-                            className={cx(
-                                "d-block",
-                                "px-32",
-                                "py-32",
-                                "text-primary"
-                            )}
-                        >
-                            <h2
+                    {categories?.map((category) => (
+                        <Col xs={24} lg={8} key={category.categoryId}>
+                            <Link
+                                to={"/products/#cake"}
                                 className={cx(
-                                    "font-secondary",
-                                    "fw-200",
-                                    "fs-42",
-                                    "text-italic"
+                                    "d-block",
+                                    "px-32",
+                                    "py-32",
+                                    "text-primary",
+                                    "border-start",
+                                    "category-img"
                                 )}
                             >
-                                Bánh sinh nhật
-                            </h2>
-                            <p className={cx("fs-16", "font-primary", "mt-3")}>
-                                Bánh cho 5-10 người ăn
-                            </p>
-                            <div className={cx("py-64")}>
-                                <img
-                                    className={cx("w-100")}
-                                    src={images.home.illusCake}
-                                    alt=""
-                                />
-                            </div>
-                            <div
-                                className={cx("w-100", "d-flex", "justify-end")}
-                            >
-                                <span className={cx("btn", "btn-link")}>
-                                    Xem tất cả
-                                </span>
-                            </div>
-                        </Link>
-                    </Col>
-
-                    <Col xs={24} lg={8}>
-                        <Link
-                            to={"/products/#small-cake"}
-                            className={cx(
-                                "d-block",
-                                "px-32",
-                                "py-32",
-                                "text-primary",
-                                "border-start"
-                            )}
-                        >
-                            <h2
-                                className={cx(
-                                    "font-secondary",
-                                    "fw-200",
-                                    "fs-42",
-                                    "text-italic"
-                                )}
-                            >
-                                Bánh ngọt nhỏ
-                            </h2>
-                            <p className={cx("fs-16", "font-primary", "mt-3")}>
-                                Bánh cho 2-5 người ăn
-                            </p>
-                            <div className={cx("py-64")}>
-                                <img
-                                    className={cx("w-100")}
-                                    src={images.home.illusSmallCake}
-                                    alt=""
-                                />
-                            </div>
-                            <div
-                                className={cx("w-100", "d-flex", "justify-end")}
-                            >
-                                <span className={cx("btn", "btn-link")}>
-                                    Xem tất cả
-                                </span>
-                            </div>
-                        </Link>
-                    </Col>
-
-                    <Col xs={24} lg={8}>
-                        <Link
-                            to={"/products/#accessory"}
-                            className={cx(
-                                "d-block",
-                                "px-32",
-                                "py-32",
-                                "text-primary",
-                                "border-start"
-                            )}
-                        >
-                            <h2
-                                className={cx(
-                                    "font-secondary",
-                                    "fw-200",
-                                    "fs-42",
-                                    "text-italic"
-                                )}
-                            >
-                                Phụ kiện
-                            </h2>
-                            <p className={cx("fs-16", "font-primary", "mt-3")}>
-                                Nến, thiệp và phụ kiện trang trí
-                            </p>
-                            <div className={cx("py-64")}>
-                                <img
-                                    className={cx("w-100")}
-                                    src={images.home.illusAccessory}
-                                    alt=""
-                                />
-                            </div>
-                            <div
-                                className={cx("w-100", "d-flex", "justify-end")}
-                            >
-                                <span className={cx("btn", "btn-link")}>
-                                    Xem tất cả
-                                </span>
-                            </div>
-                        </Link>
-                    </Col>
+                                <h2
+                                    className={cx(
+                                        "font-secondary",
+                                        "fw-200",
+                                        "fs-42",
+                                        "text-italic"
+                                    )}
+                                >
+                                    {category.name}
+                                </h2>
+                                <p
+                                    className={cx(
+                                        "fs-16",
+                                        "font-primary",
+                                        "mt-3"
+                                    )}
+                                >
+                                    {category.title}
+                                </p>
+                                <div className={cx("py-64")}>
+                                    <img
+                                        className={cx("w-100")}
+                                        src={
+                                            category.image || images.placeholder
+                                        }
+                                        alt=""
+                                    />
+                                </div>
+                                <div
+                                    className={cx(
+                                        "w-100",
+                                        "d-flex",
+                                        "justify-end"
+                                    )}
+                                >
+                                    <span className={cx("btn", "btn-link")}>
+                                        Xem tất cả
+                                    </span>
+                                </div>
+                            </Link>
+                        </Col>
+                    ))}
                 </Row>
             </section>
             {/* Categories section */}

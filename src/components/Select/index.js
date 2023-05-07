@@ -10,6 +10,7 @@ function Select({
     onChange,
     onSearch,
     options = [{ label: "", value: "" }],
+    onBlur,
     placeholder = "",
     readOnly = false,
     icon,
@@ -42,10 +43,19 @@ function Select({
     };
 
     return (
-        <div ref={groupRef} tabIndex={-1} className={cx("input-group")}>
+        <div
+            ref={groupRef}
+            tabIndex={-1}
+            className={cx("input-group", "form-control-group")}
+        >
             <input
                 value={value?.label || selectValue?.label || ""}
                 onChange={handleSearch}
+                onBlur={() => {
+                    if (typeof onBlur === "function") {
+                        onBlur();
+                    }
+                }}
                 className={cx("select-input", "w-100")}
                 type="text"
                 placeholder={placeholder || ""}

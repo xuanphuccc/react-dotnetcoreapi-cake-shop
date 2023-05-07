@@ -16,10 +16,10 @@ function Categories() {
     useEffect(() => {
         const handleGetAllCategories = async () => {
             try {
-                const allCategories = await categoryApi.getAll();
+                const response = await categoryApi.getAll();
 
-                setCategories(allCategories.data.data);
-                console.log(allCategories.data);
+                setCategories(response.data?.data ?? []);
+                console.log(response.data);
             } catch (error) {
                 console.warn(error);
             }

@@ -17,10 +17,10 @@ function Products() {
     useEffect(() => {
         const handleGetAllProducts = async () => {
             try {
-                var allProducts = await productApi.getAll();
+                var response = await productApi.getAll();
 
-                setProducts(allProducts.data.data);
-                console.log(allProducts);
+                setProducts(response.data?.data ?? []);
+                console.log(response.data);
             } catch (error) {
                 console.warn(error);
             }
@@ -71,7 +71,7 @@ function Products() {
                         to={"/admin/products/create/0"}
                         className={cx("btn", "btn-modern", "btn-dark")}
                     >
-                        Thêm sản phẩm
+                        Tạo sản phẩm
                     </Link>
                 </div>
                 {/* End card header */}
@@ -91,6 +91,7 @@ function Products() {
                                 <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Giá bán</th>
+                                <th>Đã bán</th>
                                 <th>Trạng thái</th>
                                 <th>Danh mục</th>
                             </tr>
@@ -118,6 +119,7 @@ function Products() {
                                     </td>
                                     <td>{product.name}</td>
                                     <td>{currencyConvert(product.price)}</td>
+                                    <td>{product.hasOrders}</td>
                                     <td>
                                         {product.isDisplay ? (
                                             <Tag color="cyan">Đang bán</Tag>

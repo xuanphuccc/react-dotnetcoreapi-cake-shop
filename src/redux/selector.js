@@ -11,3 +11,11 @@ export const cartStatusSelector = (state) => {
 export const cartStepSelector = (state) => {
     return state.drawers.cartStep;
 };
+
+export const cartItemsSelector = (state) => {
+    return state.cart.items ?? [];
+};
+
+export const cartSelector = (state) => {
+    return state.cart ?? {};
+};

@@ -190,11 +190,38 @@ li {
 .btn-modern + .btn-modern {
     margin-left: 8px !important;
 }
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
 // ----- End Button -----
 
 // ----- Input -----
 .form-group {
     margin: 4px 0;
+}
+.form-group .error-text {
+    display: none;
+}
+.form-group.error .error-text {
+    display: block;
+    font-size: 1.2rem;
+    font-family: var(--primary-font);
+    font-weight: 400;
+    color: var(--error-color);
+    padding-top: 4px;
+}
+
+.form-group.error .form-control,
+.form-group.error .form-control-group,
+.form-group.error .form-control-group > input {
+    background-color: rgb(254 242 242);
+    border-color: var(--error-color);
+}
+
+.form-control-group {
+    border: 1px solid var(--border-gray);
 }
 .form-control {
     display: inline-block;
@@ -203,9 +230,11 @@ li {
     outline: none;
     border: 1px solid var(--border-gray);
     padding: 14px 16px;
+    transition: all 0.2s ease;
 }
 .form-label {
     display: inline-block;
+    font-family: var(--primary-font);
     font-size: 1.4rem;
     font-weight: 500;
     padding: 8px 0;
@@ -337,16 +366,16 @@ li {
     padding-bottom: 8px !important;
 }
 .py-3 {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
 }
 .py-4 {
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
 }
 .py-5 {
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
 }
 
 .ps-0 {
@@ -490,6 +519,15 @@ li {
 
 .mt-auto {
     margin-top: auto;
+}
+.mb-auto {
+    margin-bottom: auto;
+}
+.ms-auto {
+    margin-left: auto;
+}
+.me-auto {
+    margin-right: auto;
 }
 .mt-64 {
     margin-top: 64px;
@@ -766,6 +804,9 @@ li {
 .overflow-hidden {
     overflow: hidden;
 }
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
 .overflow-x-auto {
     overflow-x: auto;
 }
@@ -971,6 +1012,11 @@ li {
         display: none;
     }
     // End Display
+
+    .px-sm-32 {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
 }
 
 // md

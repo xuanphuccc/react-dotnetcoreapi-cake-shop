@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./OrderDetails.module.scss";
-import { Breadcrumb, Col, Divider, Row, Steps, Tag } from "antd";
+import { Breadcrumb, Col, Divider, Row, Spin, Steps, Tag } from "antd";
 import { Link, useParams } from "react-router-dom";
 import images from "@/assets/images";
 import { useEffect, useMemo, useState } from "react";
@@ -23,8 +23,7 @@ function AdminOrderDetails() {
             try {
                 const response = await orderApi.get(id);
 
-                setOrderDetails(response.data.data);
-
+                setOrderDetails(response.data?.data ?? {});
                 console.log(response.data);
             } catch (error) {
                 console.warn(error);
@@ -40,6 +39,9 @@ function AdminOrderDetails() {
         setLoading(true);
         try {
             switch (value) {
+                case 0:
+                    setLoading(0);
+                    break;
                 case 1:
                     const deliveryResponse = await orderApi.delivery(id);
 
@@ -299,26 +301,31 @@ function AdminOrderDetails() {
                         <Divider className={cx("my-4")} />
 
                         <h4 className={cx("card-title", "pb-2")}>Trạng thái</h4>
-                        <Steps
-                            current={orderStatus.step || 0}
-                            onChange={orderStepChange}
-                            items={[
-                                { title: "Tạo đơn hàng" },
-                                { title: "Giao hàng" },
-                                { title: "Hoàn thành" },
-                            ]}
-                        />
+                        <Spin spinning={loading}>
+                            <Steps
+                                current={orderStatus.step || 0}
+                                onChange={orderStepChange}
+                                items={[
+                                    { title: "Tạo đơn hàng" },
+                                    { title: "Giao hàng" },
+                                    { title: "Hoàn thành" },
+                                ]}
+                            />
 
-                        <Divider className={cx("my-4")} />
+                            <Divider className={cx("my-4")} />
 
-                        <div className={cx("d-flex", "justify-start")}>
-                            <button
-                                onClick={handleCancelOrder}
-                                className={cx("btn", "btn-modern")}
-                            >
-                                Huỷ đơn hàng
-                            </button>
-                        </div>
+                            <div className={cx("d-flex", "justify-start")}>
+                                <button
+                                    onClick={handleCancelOrder}
+                                    className={cx("btn", "btn-modern")}
+                                    disabled={
+                                        orderStatus.status === "cancelled"
+                                    }
+                                >
+                                    Huỷ đơn hàng
+                                </button>
+                            </div>
+                        </Spin>
                     </div>
                 </Col>
                 {/* --- End Order details --- */}
@@ -408,7 +415,8 @@ function AdminOrderDetails() {
                             <p className={cx("fs-14", "font-primary")}>
                                 {dayjs(orderDetails.createAt).format(
                                     "DD/MM/YYYY"
-                                )}{" "}
+                                )}
+                                {", khoảng "}
                                 {orderDetails.deliveryTime}
                             </p>
                         </div>

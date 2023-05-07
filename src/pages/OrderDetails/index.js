@@ -2,10 +2,26 @@ import classNames from "classnames/bind";
 import styles from "./OrderDetails.module.scss";
 import images from "@/assets/images";
 import { Col, Radio, Row } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { cartSelector } from "@/redux/selector";
+import currencyConvert from "@/services/currencyConvert";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+import cartSlice from "@/components/Layout/MainLayout/Cart/cartSlice";
 
 const cx = classNames.bind(styles);
 
 function OrderDetails() {
+    const dispatch = useDispatch();
+    const cartInfo = useSelector(cartSelector);
+    const navigate = useNavigate();
+
+    const handleConfirmOrder = async () => {
+        // Clear cart
+        dispatch(cartSlice.actions.clearCart());
+        navigate("/");
+    };
+
     return (
         <div>
             <div
@@ -18,7 +34,7 @@ function OrderDetails() {
                 <div className={cx("w-100", "text-center", "py-5")}>
                     <img style={{ width: 123 }} src={images.logo} alt="" />
                 </div>
-                <div className={cx("border", "px-32", "py-32")}>
+                <div className={cx("border", "px-4", "px-sm-32", "py-32")}>
                     {/* ----- Header ------ */}
                     <div className={cx("pb-32", "border-bottom")}>
                         <h2
@@ -62,31 +78,11 @@ function OrderDetails() {
                                 "py-2",
                                 "d-flex",
                                 "align-items-center",
-                                "payment-item"
-                            )}
-                        >
-                            <Radio />
-                            <img
-                                className={cx("payment-img", "ms-2")}
-                                src={images.vibBank}
-                                alt=""
-                            />
-                            <p className={cx("fs-16", "font-primary", "ms-3")}>
-                                Ngân hàng VIB (Ngân hàng Quốc Tế)
-                            </p>
-                        </div>
-
-                        <div
-                            className={cx(
-                                "px-2",
-                                "py-2",
-                                "d-flex",
-                                "align-items-center",
                                 "payment-item",
                                 "mt-1"
                             )}
                         >
-                            <Radio />
+                            <Radio checked />
                             <img
                                 className={cx("payment-img", "ms-2")}
                                 src={images.mbBank}
@@ -163,7 +159,10 @@ function OrderDetails() {
                             </Col>
                             <Col span={16}>
                                 <p className={cx("fs-16", "font-primary")}>
-                                    720.000 ₫
+                                    {currencyConvert(
+                                        cartInfo.itemsTotal +
+                                            cartInfo.shippingCost
+                                    )}
                                 </p>
                             </Col>
                         </Row>
@@ -175,7 +174,7 @@ function OrderDetails() {
                             </Col>
                             <Col span={16}>
                                 <p className={cx("fs-16", "font-primary")}>
-                                    ABC 0355831522
+                                    LF{cartInfo.customerPhoneNumber}
                                 </p>
                             </Col>
                         </Row>
@@ -194,14 +193,24 @@ function OrderDetails() {
                             Mọi thắc mắc cần hỗ trợ vui lòng liên hệ hotline:
                             090 786 0330 (9am-9pm)
                         </p>
-                        <button className={cx("btn", "btn-dark", "w-100")}>
-                            Hoàn tất đơn hàng
+                        <button
+                            onClick={handleConfirmOrder}
+                            className={cx("btn", "btn-dark", "w-100")}
+                        >
+                            Hoàn tất đặt hàng
                         </button>
                     </div>
                 </div>
 
                 <div
-                    className={cx("border", "px-32", "py-32", "mt-32", "mb-32")}
+                    className={cx(
+                        "border",
+                        "px-4",
+                        "px-sm-32",
+                        "py-32",
+                        "mt-32",
+                        "mb-32"
+                    )}
                 >
                     <h2
                         className={cx(
@@ -231,10 +240,10 @@ function OrderDetails() {
                             </p>
 
                             <p className={cx("fs-16", "font-primary")}>
-                                Trần Văn A
+                                {cartInfo.customerName}
                             </p>
                             <p className={cx("fs-16", "font-primary")}>
-                                0123456789
+                                {cartInfo.customerPhoneNumber}
                             </p>
                         </Col>
                         <Col span={12}>
@@ -247,14 +256,14 @@ function OrderDetails() {
                                     "mb-1"
                                 )}
                             >
-                                Người đặt
+                                Người nhận
                             </p>
 
                             <p className={cx("fs-16", "font-primary")}>
-                                Trần Văn A
+                                {cartInfo.recipientName}
                             </p>
                             <p className={cx("fs-16", "font-primary")}>
-                                0123456789
+                                {cartInfo.recipientPhoneNumber}
                             </p>
                         </Col>
                     </Row>
@@ -273,8 +282,7 @@ function OrderDetails() {
                         </p>
 
                         <p className={cx("fs-16", "font-primary")}>
-                            Phường phương canh- Nam Từ Liên, 41 Ngõ 324 Phương
-                            Canh, Hòe Thị, Phương Canh, Từ Liêm, Hà Nội
+                            {cartInfo.address}
                         </p>
                     </div>
 
@@ -292,7 +300,8 @@ function OrderDetails() {
                         </p>
 
                         <p className={cx("fs-16", "font-primary")}>
-                            27/04/2023, khoảng 13h00 - 15h00
+                            {dayjs(cartInfo.deliveryDate).format("DD/MM/YYYY")},
+                            khoảng {cartInfo.deliveryTime}
                         </p>
                     </div>
 
@@ -309,24 +318,29 @@ function OrderDetails() {
                             Đơn hàng
                         </p>
 
-                        <div className={cx("border", "px-3", "py-2")}>
+                        {cartInfo?.items?.map((item) => (
                             <div
-                                className={cx(
-                                    "d-flex",
-                                    "justify-space-between"
-                                )}
+                                key={item.productId}
+                                className={cx("border", "px-3", "py-2", "mb-2")}
                             >
-                                <p className={cx("fs-16", "font-primary")}>
-                                    Lily's Valley x 01
-                                </p>
-                                <p className={cx("fs-16", "font-primary")}>
-                                    660.000 ₫
+                                <div
+                                    className={cx(
+                                        "d-flex",
+                                        "justify-space-between"
+                                    )}
+                                >
+                                    <p className={cx("fs-16", "font-primary")}>
+                                        {item.name} x {item.qty}
+                                    </p>
+                                    <p className={cx("fs-16", "font-primary")}>
+                                        {currencyConvert(item.price * item.qty)}
+                                    </p>
+                                </div>
+                                <p className={cx("fs-14", "font-primary")}>
+                                    {item.title}
                                 </p>
                             </div>
-                            <p className={cx("fs-14", "font-primary")}>
-                                Vani, Anh đào & Dâu tây
-                            </p>
-                        </div>
+                        ))}
                     </div>
 
                     <div className={cx("mt-4")}>
@@ -349,7 +363,7 @@ function OrderDetails() {
                                 Tổng sản phẩm
                             </p>
                             <p className={cx("fs-16", "font-primary")}>
-                                660.000 ₫
+                                {currencyConvert(cartInfo.itemsTotal)}
                             </p>
                         </div>
                         <div
@@ -369,10 +383,10 @@ function OrderDetails() {
                                     "mb-1"
                                 )}
                             >
-                                Phí vận chuyển (11.38 km)
+                                Phí vận chuyển ({cartInfo.distance} km)
                             </p>
                             <p className={cx("fs-16", "font-primary")}>
-                                60.000 ₫
+                                {currencyConvert(cartInfo.shippingCost)}
                             </p>
                         </div>
                         <div
@@ -395,7 +409,9 @@ function OrderDetails() {
                                 Tổng tiền
                             </p>
                             <p className={cx("fs-18", "font-primary")}>
-                                720.000 ₫
+                                {currencyConvert(
+                                    cartInfo.itemsTotal + cartInfo.shippingCost
+                                )}
                             </p>
                         </div>
                     </div>

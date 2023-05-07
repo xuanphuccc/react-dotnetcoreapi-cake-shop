@@ -14,10 +14,12 @@ function Cart() {
     const cartStatus = useSelector(cartStatusSelector);
     const cartStep = useSelector(cartStepSelector);
 
+    // ----- Handle close cart -----
     const handleCloseCart = () => {
         dispatch(drawersSlide.actions.closeCart());
-        dispatch(drawersSlide.actions.openStepCart());
+        dispatch(drawersSlide.actions.openCartDetail());
     };
+    // ----- End handle close cart -----
 
     return (
         <div className={cx("menu")}>

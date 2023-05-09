@@ -4,7 +4,7 @@ import icons from "@/assets/icons";
 import images from "@/assets/images";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import drawersSlide from "../drawersSlide";
+import mainLayoutSlide from "../mainLayoutSlide";
 import { cartItemsSelector } from "@/redux/selector";
 
 const cx = classNames.bind(styles);
@@ -14,11 +14,11 @@ function Header() {
     const cartItems = useSelector(cartItemsSelector);
 
     const handleOpenMenu = () => {
-        dispatch(drawersSlide.actions.openMenu());
+        dispatch(mainLayoutSlide.actions.openMenu());
     };
 
     const handleOpenCart = () => {
-        dispatch(drawersSlide.actions.openCart());
+        dispatch(mainLayoutSlide.actions.openCart());
     };
 
     return (

@@ -1,10 +1,10 @@
 import cartSlice from "@/components/Layout/MainLayout/Cart/cartSlice";
-import drawersSlide from "@/components/Layout/MainLayout/drawersSlide";
+import mainLayoutSlide from "@/components/Layout/MainLayout/mainLayoutSlide";
 import { configureStore } from "@reduxjs/toolkit";
 
 export default configureStore({
     reducer: {
-        drawers: drawersSlide.reducer,
+        mainLayout: mainLayoutSlide.reducer,
         cart: cartSlice.reducer,
     },
 });

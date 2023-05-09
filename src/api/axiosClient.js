@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Create new instance
 const axiosClient = axios.create({
     baseURL: process.env["REACT_APP_BASE_URL"],
     headers: {

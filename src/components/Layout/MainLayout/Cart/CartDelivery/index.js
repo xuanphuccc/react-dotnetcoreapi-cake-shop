@@ -3,7 +3,7 @@ import styles from "./CartDelivery.module.scss";
 import icons from "@/assets/icons";
 import * as Unicons from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
-import drawersSlide from "../../drawersSlide";
+import mainLayoutSlide from "../../mainLayoutSlide";
 import Select from "@/components/Select";
 import { useEffect, useMemo, useState } from "react";
 import { Checkbox, DatePicker } from "antd";
@@ -53,12 +53,12 @@ function CartDelivery() {
 
     // ----- Handle cart controls -----
     const handleCloseCart = () => {
-        dispatch(drawersSlide.actions.closeCart());
-        dispatch(drawersSlide.actions.openCartDetail());
+        dispatch(mainLayoutSlide.actions.closeCart());
+        dispatch(mainLayoutSlide.actions.openCartDetail());
     };
 
     const handleChangeStepToCart = () => {
-        dispatch(drawersSlide.actions.openCartDetail());
+        dispatch(mainLayoutSlide.actions.openCartDetail());
     };
     // ----- End handle cart controls -----
 
@@ -312,8 +312,8 @@ function CartDelivery() {
                 dispatch(cartSlice.actions.setDeliveryInfor(data));
 
                 // Close cart
-                dispatch(drawersSlide.actions.closeCart());
-                dispatch(drawersSlide.actions.openCartDetail());
+                dispatch(mainLayoutSlide.actions.closeCart());
+                dispatch(mainLayoutSlide.actions.openCartDetail());
 
                 // Nagigate to order confirm
                 navigate("/confirm");

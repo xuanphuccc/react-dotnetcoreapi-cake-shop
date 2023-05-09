@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./Cart.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import drawersSlide from "../drawersSlide";
+import mainLayoutSlide from "../mainLayoutSlide";
 import { cartStatusSelector, cartStepSelector } from "@/redux/selector";
 
 import CartDetails from "./CartDetails";
@@ -16,8 +16,8 @@ function Cart() {
 
     // ----- Handle close cart -----
     const handleCloseCart = () => {
-        dispatch(drawersSlide.actions.closeCart());
-        dispatch(drawersSlide.actions.openCartDetail());
+        dispatch(mainLayoutSlide.actions.closeCart());
+        dispatch(mainLayoutSlide.actions.openCartDetail());
     };
     // ----- End handle close cart -----
 

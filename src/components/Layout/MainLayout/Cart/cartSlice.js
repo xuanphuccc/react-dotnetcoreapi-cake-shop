@@ -27,12 +27,23 @@ export default createSlice({
                 0
             );
         },
+        setItemWishes: (state, action) => {
+            const existItem = state.items.find(
+                (item) => item.productId === action.payload?.productId
+            );
+
+            if (existItem) {
+                existItem.wishes = action.payload?.wishes;
+            }
+        },
         increaseItemQty: (state, action) => {
             const existItem = state.items.find(
                 (item) => item.productId === action.payload.productId
             );
 
-            existItem.qty += action.payload.qty;
+            if (existItem) {
+                existItem.qty += action.payload.qty;
+            }
 
             // Calculate items total price
             state.itemsTotal = state.items?.reduce(

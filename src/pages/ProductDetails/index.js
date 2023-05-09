@@ -16,7 +16,7 @@ import Paragraph from "@/components/Paragraph";
 import { useDispatch, useSelector } from "react-redux";
 import cartSlice from "@/components/Layout/MainLayout/Cart/cartSlice";
 import { cartItemsSelector } from "@/redux/selector";
-import drawersSlide from "@/components/Layout/MainLayout/drawersSlide";
+import mainLayoutSlide from "@/components/Layout/MainLayout/mainLayoutSlide";
 
 const cx = classNames.bind(styles);
 
@@ -106,7 +106,7 @@ function ProductDetails() {
             );
 
             // Open cart
-            dispatch(drawersSlide.actions.openCart());
+            dispatch(mainLayoutSlide.actions.openCart());
         } else {
             // Else increase item qty
             dispatch(
@@ -117,7 +117,7 @@ function ProductDetails() {
             );
 
             // Open cart
-            dispatch(drawersSlide.actions.openCart());
+            dispatch(mainLayoutSlide.actions.openCart());
         }
     };
     // ----- End handle add product to cart -----

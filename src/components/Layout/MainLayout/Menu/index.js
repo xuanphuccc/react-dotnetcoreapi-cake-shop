@@ -3,7 +3,7 @@ import styles from "./Menu.module.scss";
 import icons from "@/assets/icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import drawersSlide from "../drawersSlide";
+import mainLayoutSlide from "../mainLayoutSlide";
 import { menuStatusSelector } from "@/redux/selector";
 
 const cx = classNames.bind(styles);
@@ -14,7 +14,7 @@ function Menu() {
 
     const handleCloseMenu = (e) => {
         e.stopPropagation();
-        dispatch(drawersSlide.actions.closeMenu());
+        dispatch(mainLayoutSlide.actions.closeMenu());
     };
 
     return (

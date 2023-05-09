@@ -4,7 +4,7 @@ import images from "@/assets/images";
 import { Link } from "react-router-dom";
 import icons from "@/assets/icons";
 import { useDispatch, useSelector } from "react-redux";
-import drawersSlide from "../../drawersSlide";
+import mainLayoutSlide from "../../mainLayoutSlide";
 import { cartItemsSelector, cartSelector } from "@/redux/selector";
 import currencyConvert from "@/services/currencyConvert";
 import cartSlice from "../cartSlice";
@@ -18,7 +18,7 @@ function CartDetails() {
 
     // ----- -----
     const handleCloseCart = () => {
-        dispatch(drawersSlide.actions.closeCart());
+        dispatch(mainLayoutSlide.actions.closeCart());
     };
 
     const handleNavigateToDeliveryForm = () => {
@@ -26,7 +26,16 @@ function CartDetails() {
         dispatch(cartSlice.actions.clearDeliveryInfor());
 
         // Navigate to devlivery form
-        dispatch(drawersSlide.actions.openCartDelivery());
+        dispatch(mainLayoutSlide.actions.openCartDelivery());
+    };
+
+    const handleOpenWishesInputModal = (item) => {
+        dispatch(
+            mainLayoutSlide.actions.openWishesModal({
+                productId: item.productId,
+                wishes: item.wishes,
+            })
+        );
     };
     // ----- -----
 
@@ -111,11 +120,39 @@ function CartDetails() {
                                 {item.title}
                             </p>
                             <div className={cx("py-1")}>
-                                <button
-                                    className={cx("btn", "btn-sm", "btn-dark")}
-                                >
-                                    Viết lời chúc
-                                </button>
+                                {item.wishes ? (
+                                    <div className={cx("wishes-wrap")}>
+                                        <p
+                                            className={cx("quote", "me-1")}
+                                            title="Lời chúc kèm theo bánh"
+                                        >
+                                            "{item.wishes}"
+                                        </p>
+                                        <button
+                                            onClick={() => {
+                                                handleOpenWishesInputModal(
+                                                    item
+                                                );
+                                            }}
+                                            className={cx("btn", "btn-link")}
+                                        >
+                                            Sửa
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            handleOpenWishesInputModal(item);
+                                        }}
+                                        className={cx(
+                                            "btn",
+                                            "btn-sm",
+                                            "btn-dark"
+                                        )}
+                                    >
+                                        Viết lời chúc
+                                    </button>
+                                )}
                             </div>
                             <p className={cx("py-1", "font-primary")}>
                                 {currencyConvert(item.price)}

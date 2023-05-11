@@ -1,52 +1,52 @@
 .carousel-wrap {
-    width: 100%;
-    height: calc(100vh - 94px);
+  width: 100%;
+  height: calc(100vh - 94px);
 }
 .slider-item {
-    width: 100%;
-    height: calc(100vh - 96px);
-    object-fit: cover;
+  width: 100%;
+  height: calc(100vh - 96px);
+  object-fit: cover;
 }
 
 .sub-slider {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .product-details {
-    padding: 40px;
+  padding: 40px;
 }
 
 .btn-back {
-    position: relative;
-    background-color: var(--bg-white) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    left: -24px;
+  position: relative;
+  background-color: var(--bg-white) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  left: -24px;
 
-    &:hover,
-    .btn-back-icon:hover + & {
-        left: 0px;
-    }
-    &::after {
-        width: 100% !important;
-    }
+  &:hover,
+  .btn-back-icon:hover + & {
+    left: 0px;
+  }
+  &::after {
+    width: 100% !important;
+  }
 }
 
 .qty-number {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-family: var(--third-font);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-family: var(--third-font);
 }
 
 .product-details-section {
-    li {
-        font-size: 1.8rem;
-    }
+  li {
+    font-size: 1.8rem;
+  }
 }

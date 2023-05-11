@@ -11,16 +11,16 @@ import instagram from "./instagram.svg";
 import tiktok from "./tiktok.svg";
 
 const icons = {
-    cart,
-    menu,
-    arrowLeft,
-    arrowRight,
-    minus,
-    plus,
-    times,
-    facebook,
-    instagram,
-    tiktok,
+  cart,
+  menu,
+  arrowLeft,
+  arrowRight,
+  minus,
+  plus,
+  times,
+  facebook,
+  instagram,
+  tiktok,
 };
 
 export default icons;

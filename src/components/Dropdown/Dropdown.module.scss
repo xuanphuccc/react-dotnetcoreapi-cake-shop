@@ -1,77 +1,77 @@
 .dropdown-wrap {
-    width: 100%;
+  width: 100%;
 }
 
 .dropdown-header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0;
-    cursor: pointer;
-    user-select: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  user-select: none;
 }
 
 .dropdown-title {
-    font-size: 18px;
-    font-weight: 500;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .dropdown-icon {
-    transition: all 0.4s ease;
+  transition: all 0.4s ease;
 }
 
 .dropdown-content {
-    padding-bottom: 32px;
-    overflow: hidden;
-    height: 0;
-    padding-bottom: 0;
+  padding-bottom: 32px;
+  overflow: hidden;
+  height: 0;
+  padding-bottom: 0;
 
-    transition: all 0.4s ease;
+  transition: all 0.4s ease;
 }
 
 .dropdown-wrap.active {
-    .dropdown-content {
-        animation: dropdownOpen 0.4s ease forwards;
-    }
+  .dropdown-content {
+    animation: dropdownOpen 0.4s ease forwards;
+  }
 
-    .dropdown-icon {
-        transform: rotate(-90deg);
-    }
+  .dropdown-icon {
+    transform: rotate(-90deg);
+  }
 }
 
 .dropdown-wrap.close {
-    .dropdown-content {
-        animation: dropdownClose 0.4s ease forwards;
-    }
+  .dropdown-content {
+    animation: dropdownClose 0.4s ease forwards;
+  }
 
-    .dropdown-icon {
-        transform: rotate(0deg);
-    }
+  .dropdown-icon {
+    transform: rotate(0deg);
+  }
 }
 
 .border-bottom {
-    border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 @keyframes dropdownOpen {
-    from {
-        height: 0;
-        padding-bottom: 0;
-    }
-    to {
-        height: auto;
-        padding-bottom: 32px;
-    }
+  from {
+    height: 0;
+    padding-bottom: 0;
+  }
+  to {
+    height: auto;
+    padding-bottom: 32px;
+  }
 }
 
 @keyframes dropdownClose {
-    from {
-        height: auto;
-        padding-bottom: 32px;
-    }
-    to {
-        height: 0;
-        padding-bottom: 0;
-    }
+  from {
+    height: auto;
+    padding-bottom: 32px;
+  }
+  to {
+    height: 0;
+    padding-bottom: 0;
+  }
 }

@@ -19,44 +19,44 @@ import ShippingMethods from "@/pages/Admin/ShippingMethods";
 import ShippingMethodEdit from "@/pages/Admin/ShippingMethodEdit";
 
 const publicRoutes = [
-    { path: "/", component: Home, layout: MainLayout },
-    { path: "/about", component: About, layout: MainLayout },
-    { path: "/instruction", component: Instruction, layout: MainLayout },
-    { path: "/products", component: Shop, layout: MainLayout },
-    { path: "/products/:id", component: ProductDetails, layout: MainLayout },
-    { path: "/confirm", component: OrderDetails, layout: null },
+  { path: "/", component: Home, layout: MainLayout },
+  { path: "/about", component: About, layout: MainLayout },
+  { path: "/instruction", component: Instruction, layout: MainLayout },
+  { path: "/products", component: Shop, layout: MainLayout },
+  { path: "/products/:id", component: ProductDetails, layout: MainLayout },
+  { path: "/confirm", component: OrderDetails, layout: null },
 ];
 
 const privateRoutes = [
-    { path: "/admin", component: Dashboard, layout: AdminLayout },
-    { path: "/admin/orders", component: Orders, layout: AdminLayout },
-    {
-        path: "/admin/orders/details/:id",
-        component: AdminOrderDetails,
-        layout: AdminLayout,
-    },
-    { path: "/admin/products", component: Products, layout: AdminLayout },
-    {
-        path: "/admin/products/:action/:id",
-        component: ProductEdit,
-        layout: AdminLayout,
-    },
-    { path: "/admin/categories", component: Categories, layout: AdminLayout },
-    {
-        path: "/admin/categories/:action/:id",
-        component: CategoryEdit,
-        layout: AdminLayout,
-    },
-    {
-        path: "/admin/shipping-methods",
-        component: ShippingMethods,
-        layout: AdminLayout,
-    },
-    {
-        path: "/admin/shipping-methods/:action/:id",
-        component: ShippingMethodEdit,
-        layout: AdminLayout,
-    },
+  { path: "/admin", component: Dashboard, layout: AdminLayout },
+  { path: "/admin/orders", component: Orders, layout: AdminLayout },
+  {
+    path: "/admin/orders/details/:id",
+    component: AdminOrderDetails,
+    layout: AdminLayout,
+  },
+  { path: "/admin/products", component: Products, layout: AdminLayout },
+  {
+    path: "/admin/products/:action/:id",
+    component: ProductEdit,
+    layout: AdminLayout,
+  },
+  { path: "/admin/categories", component: Categories, layout: AdminLayout },
+  {
+    path: "/admin/categories/:action/:id",
+    component: CategoryEdit,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/shipping-methods",
+    component: ShippingMethods,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/shipping-methods/:action/:id",
+    component: ShippingMethodEdit,
+    layout: AdminLayout,
+  },
 ];
 
 export { publicRoutes, privateRoutes };

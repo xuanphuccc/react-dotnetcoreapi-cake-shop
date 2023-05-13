@@ -48,8 +48,8 @@ function AdminLayout({ children }) {
           <div className={cx("d-flex", "align-items-center", "pe-2", "pe-lg-5")}>
             <img className={cx("account-avatar")} src={images.cat} alt="" />
             <div className={cx("ps-2", "user-infor-group")}>
-              <p className={cx("fs-14", "fw-600")}>Trần Xuân Phúc</p>
-              <p className={cx("text-light-gray", "fs-12")}>CEO Satellite</p>
+              <p className={cx("fs-14", "fw-600")}>IWS Team</p>
+              <p className={cx("text-light-gray", "fs-12")}>LaFuong Pastry</p>
             </div>
           </div>
           <span className={cx("header-icon", "me-5")}>

@@ -190,7 +190,7 @@ function ProductEdit() {
       accessories: productAccessories,
       instructions: productInstruction,
       isDisplay: productIsDisplay,
-      categoryId: Number(productCategoryId),
+      categoryId: Number(productCategoryId) || null,
       images: productImages?.map((img) => ({ image: img.image })) ?? [],
     };
 

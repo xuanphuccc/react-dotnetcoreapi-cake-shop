@@ -19,7 +19,6 @@ function Shop() {
       try {
         const response = await categoryApi.getAll(3);
         const categories = response.data?.data ?? [];
-        // console.log(categories);
 
         const categoriesWithProducts = categories.map(async (category) => {
           const categoryProducts = await productApi.getAll(category.categoryId);
@@ -52,28 +51,34 @@ function Shop() {
           </div>
 
           <Row>
-            {category?.products?.map((product) => (
-              <Col xs={24} sm={12} lg={8} key={product.productId}>
-                <Link
-                  to={`/products/${product.productId}`}
-                  className={cx("px-5", "pt-5", "bg-light-gray", "d-block", "text-primary", "border-start")}
-                >
-                  <h2 className={cx("fs-24", "fw-400", "font-primary")}>{product.name}</h2>
-                  <p className={cx("fs-18", "fw-400", "font-primary")}>{product.title}</p>
-                  <p className={cx("fs-18", "fw-400", "font-primary")}>{currencyConvert(product.price)}</p>
+            {category?.products?.map((product) => {
+              if (product.isDisplay) {
+                return (
+                  <Col xs={24} sm={12} lg={8} key={product.productId}>
+                    <Link
+                      to={`/products/${product.productId}`}
+                      className={cx("px-5", "pt-5", "bg-light-gray", "d-block", "text-primary", "border")}
+                    >
+                      <h2 className={cx("fs-24", "fw-400", "font-primary")}>{product.name}</h2>
+                      <p className={cx("fs-18", "fw-400", "font-primary")}>{product.title}</p>
+                      <p className={cx("fs-18", "fw-400", "font-primary")}>{currencyConvert(product.price)}</p>
 
-                  <img
-                    className={cx("w-100", "d-block")}
-                    src={product?.images[0]?.image || images.placeholder}
-                    alt=""
-                  />
+                      <img
+                        className={cx("w-100", "d-block")}
+                        src={product?.images[0]?.image || images.placeholder}
+                        alt=""
+                      />
 
-                  <div className={cx("d-flex", "justify-end", "pb-5")}>
-                    <span className={cx("btn", "btn-link", "fs-16")}>Xem thêm</span>
-                  </div>
-                </Link>
-              </Col>
-            ))}
+                      <div className={cx("d-flex", "justify-end", "pb-5")}>
+                        <span className={cx("btn", "btn-link", "fs-16")}>Xem thêm</span>
+                      </div>
+                    </Link>
+                  </Col>
+                );
+              }
+
+              return false;
+            })}
           </Row>
         </section>
       ))}

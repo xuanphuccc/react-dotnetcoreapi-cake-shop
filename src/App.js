@@ -3,55 +3,55 @@ import { privateRoutes, publicRoutes } from "./routes";
 import { Fragment } from "react";
 
 function App() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                {/* Public routes */}
-                {publicRoutes.map((route, index) => {
-                    const Page = route.component;
-                    let Layout = Fragment;
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Public routes */}
+        {publicRoutes.map((route, index) => {
+          const Page = route.component;
+          let Layout = Fragment;
 
-                    if (route.layout) {
-                        Layout = route.layout;
-                    }
+          if (route.layout) {
+            Layout = route.layout;
+          }
 
-                    return (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={
-                                <Layout>
-                                    <Page />
-                                </Layout>
-                            }
-                        ></Route>
-                    );
-                })}
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <Layout>
+                  <Page />
+                </Layout>
+              }
+            ></Route>
+          );
+        })}
 
-                {/* Private routes */}
-                {privateRoutes.map((route, index) => {
-                    const Page = route.component;
-                    let Layout = Fragment;
+        {/* Private routes */}
+        {privateRoutes.map((route, index) => {
+          const Page = route.component;
+          let Layout = Fragment;
 
-                    if (route.layout) {
-                        Layout = route.layout;
-                    }
+          if (route.layout) {
+            Layout = route.layout;
+          }
 
-                    return (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={
-                                <Layout>
-                                    <Page />
-                                </Layout>
-                            }
-                        ></Route>
-                    );
-                })}
-            </Routes>
-        </BrowserRouter>
-    );
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <Layout>
+                  <Page />
+                </Layout>
+              }
+            ></Route>
+          );
+        })}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

@@ -10,34 +10,31 @@ import CartDelivery from "./CartDelivery";
 const cx = classNames.bind(styles);
 
 function Cart() {
-    const dispatch = useDispatch();
-    const cartStatus = useSelector(cartStatusSelector);
-    const cartStep = useSelector(cartStepSelector);
+  const dispatch = useDispatch();
+  const cartStatus = useSelector(cartStatusSelector);
+  const cartStep = useSelector(cartStepSelector);
 
-    // ----- Handle close cart -----
-    const handleCloseCart = () => {
-        dispatch(mainLayoutSlide.actions.closeCart());
-        dispatch(mainLayoutSlide.actions.openCartDetail());
-    };
-    // ----- End handle close cart -----
+  // ----- Handle close cart -----
+  const handleCloseCart = () => {
+    dispatch(mainLayoutSlide.actions.closeCart());
+    dispatch(mainLayoutSlide.actions.openCartDetail());
+  };
+  // ----- End handle close cart -----
 
-    return (
-        <div className={cx("menu")}>
-            <div
-                onClick={handleCloseCart}
-                className={cx("overlay", { active: cartStatus })}
-            ></div>
-            <div
-                className={cx("menu-wrapper", {
-                    active: cartStatus,
-                    close: !cartStatus,
-                })}
-            >
-                {cartStep === "cart" && <CartDetails />}
-                {cartStep === "delivery" && <CartDelivery />}
-            </div>
-        </div>
-    );
+  return (
+    <div className={cx("menu")}>
+      <div onClick={handleCloseCart} className={cx("overlay", { active: cartStatus })}></div>
+      <div
+        className={cx("menu-wrapper", {
+          active: cartStatus,
+          close: !cartStatus,
+        })}
+      >
+        {cartStep === "cart" && <CartDetails />}
+        {cartStep === "delivery" && <CartDelivery />}
+      </div>
+    </div>
+  );
 }
 
 export default Cart;

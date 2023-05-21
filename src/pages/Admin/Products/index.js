@@ -83,7 +83,7 @@ function Products() {
                 >
                   <td>{index + 1}</td>
                   <td className={cx("py-2")}>
-                    <img src={product.images[0].image || images.placeholder} alt="" />
+                    <img src={product?.images[0]?.image || images.placeholder} alt="" />
                   </td>
                   <td>{product.name}</td>
                   <td>{currencyConvert(product.price)}</td>

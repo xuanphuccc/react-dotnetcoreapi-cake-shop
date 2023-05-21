@@ -556,7 +556,7 @@ function ProductEdit() {
                         Cập nhật
                       </button>
                       <button
-                        onDoubleClick={handleDeleteProduct}
+                        onClick={handleDeleteProduct}
                         className={cx("btn", "btn-modern", "btn-warning")}
                         disabled={productHasOrders > 0}
                       >

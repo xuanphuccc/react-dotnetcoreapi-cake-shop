@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Categories.module.scss";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import categoryApi from "@/api/categoryApi";
@@ -9,16 +9,21 @@ import images from "@/assets/images";
 const cx = classNames.bind(styles);
 
 function Categories() {
+  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleGetAllCategories = async () => {
+      setLoading(true);
+
       try {
         const response = await categoryApi.getAll();
 
         setCategories(response.data?.data ?? []);
+        setLoading(false);
+
         console.log(response.data);
       } catch (error) {
         console.warn(error);
@@ -58,36 +63,38 @@ function Categories() {
         {/* End card header */}
 
         {/* Table */}
-        <div className={cx("w-100", "overflow-x-auto")}>
-          <table className={cx("table", "table-hover", "bordered-header-only")}>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Ảnh</th>
-                <th>Tên danh mục</th>
-                <th>Tiêu đề</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories?.map((category, index) => (
-                <tr
-                  onClick={() => {
-                    navigate(`/admin/categories/update/${category.categoryId}`);
-                  }}
-                  className={cx("cursor-pointer")}
-                  key={category.categoryId}
-                >
-                  <td>{index + 1}</td>
-                  <td className={cx("py-2")}>
-                    <img src={category.image || images.placeholder} alt="" />
-                  </td>
-                  <td>{category.name}</td>
-                  <td>{category.title}</td>
+        <Spin spinning={loading}>
+          <div className={cx("w-100", "overflow-x-auto")}>
+            <table className={cx("table", "table-hover", "bordered-header-only")}>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ảnh</th>
+                  <th>Tên danh mục</th>
+                  <th>Tiêu đề</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {categories?.map((category, index) => (
+                  <tr
+                    onClick={() => {
+                      navigate(`/admin/categories/update/${category.categoryId}`);
+                    }}
+                    className={cx("cursor-pointer")}
+                    key={category.categoryId}
+                  >
+                    <td>{index + 1}</td>
+                    <td className={cx("py-2")}>
+                      <img src={category.image || images.placeholder} alt="" />
+                    </td>
+                    <td>{category.name}</td>
+                    <td>{category.title}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Spin>
         {/* End table */}
       </div>
       {/* ----- End card ----- */}

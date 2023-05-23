@@ -1,47 +1,48 @@
 import classNames from "classnames/bind";
 import styles from "./Shop.module.scss";
 import images from "@/assets/images";
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import categoryApi from "@/api/categoryApi";
-import productApi from "@/api/productApi";
 import currencyConvert from "@/services/currencyConvert";
 import Paragraph from "@/components/Paragraph";
+import { useSelector } from "react-redux";
+import { categoriesSelector, isLoadingSelector, productsSelector } from "@/redux/selector";
 
 const cx = classNames.bind(styles);
 
 function Shop() {
-  const [categories, setCategories] = useState([]);
+  const [productsByCategory, setProductsByCategory] = useState([]);
+  const categories = useSelector(categoriesSelector);
+  const products = useSelector(productsSelector);
+  const loading = useSelector(isLoadingSelector);
 
   useEffect(() => {
     const handleGetInformations = async () => {
       try {
-        const response = await categoryApi.getAll(3);
-        const categories = response.data?.data ?? [];
-
-        const categoriesWithProducts = categories.map(async (category) => {
-          const categoryProducts = await productApi.getAll(category.categoryId);
+        const categoriesWithProducts = categories.map((category) => {
+          const categoryProducts = products.filter((product) => product?.category?.categoryId === category.categoryId);
 
           return {
             ...category,
-            products: categoryProducts.data?.data ?? [],
+            products: categoryProducts,
           };
         });
 
-        console.log(await Promise.all(categoriesWithProducts));
-        setCategories(await Promise.all(categoriesWithProducts));
+        console.log(categoriesWithProducts);
+
+        setProductsByCategory(categoriesWithProducts);
       } catch (error) {
         console.warn(error);
       }
     };
 
     handleGetInformations();
-  }, []);
+  }, [products, categories]);
 
   return (
     <div>
-      {categories.map((category) => (
+      {productsByCategory.map((category) => (
         <section key={category.categoryId} className={cx("border-bottom")}>
           <div className={cx("py-64", "px-32", "d-flex", "flex-column", "align-items-center", "border-bottom")}>
             <h2 className={cx("font-secondary", "fw-200", "fs-48", "text-center", "text-italic")}>{category.name}</h2>
@@ -82,6 +83,12 @@ function Shop() {
           </Row>
         </section>
       ))}
+
+      {loading && (
+        <div className={cx("py-64", "d-flex", "justify-center")}>
+          <Spin></Spin>
+        </div>
+      )}
     </div>
   );
 }

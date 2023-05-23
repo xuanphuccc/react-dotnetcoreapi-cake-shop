@@ -2,29 +2,15 @@ import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
 import images from "@/assets/images";
 import { Link } from "react-router-dom";
-import { Col, Row } from "antd";
-import { useEffect, useState } from "react";
-import categoryApi from "@/api/categoryApi";
+import { Col, Row, Spin } from "antd";
+import { useSelector } from "react-redux";
+import { categoriesSelector, isLoadingSelector } from "@/redux/selector";
 
 const cx = classNames.bind(styles);
 
 function Home() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const handleGetInformations = async () => {
-      try {
-        const response = await Promise.all([categoryApi.getAll(3)]);
-        console.log(response);
-
-        setCategories(response[0].data.data);
-      } catch (error) {
-        console.warn(error);
-      }
-    };
-
-    handleGetInformations();
-  }, []);
+  const categories = useSelector(categoriesSelector);
+  const loading = useSelector(isLoadingSelector);
 
   return (
     <div className={cx("home-wrap")}>
@@ -78,6 +64,7 @@ function Home() {
       {/* End Section 2 */}
 
       {/* Categories section */}
+
       <section className={cx("border-bottom")}>
         <Row>
           {categories?.map((category) => (
@@ -98,7 +85,14 @@ function Home() {
             </Col>
           ))}
         </Row>
+
+        {loading && (
+          <div className={cx("py-64", "d-flex", "justify-center")}>
+            <Spin></Spin>
+          </div>
+        )}
       </section>
+
       {/* Categories section */}
 
       {/* Products section */}

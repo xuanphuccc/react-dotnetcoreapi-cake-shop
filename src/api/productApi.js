@@ -1,11 +1,19 @@
 const { default: axiosClient } = require("./axiosClient");
 
 const productApi = {
-  getAll(category) {
+  getAll(
+    params = {
+      category: null,
+      pageSize: null,
+      page: null,
+      sort: null,
+      search: null,
+    },
+  ) {
     const url = "/products";
     return axiosClient.get(url, {
       params: {
-        category,
+        ...params,
       },
     });
   },

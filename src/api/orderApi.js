@@ -1,9 +1,21 @@
 const { default: axiosClient } = require("./axiosClient");
 
 const orderApi = {
-  getAll() {
+  getAll(
+    params = {
+      status: null,
+      pageSize: null,
+      page: null,
+      sort: null,
+      search: null,
+    },
+  ) {
     const url = "/orders";
-    return axiosClient.get(url);
+    return axiosClient.get(url, {
+      params: {
+        ...params,
+      },
+    });
   },
 
   get(id) {

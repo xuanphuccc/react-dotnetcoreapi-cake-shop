@@ -2,7 +2,7 @@ const { default: axiosClient } = require("./axiosClient");
 
 const categoryApi = {
   getAll(limit) {
-    const url = "/categories";
+    const url = "/categories/filter";
     return axiosClient.get(url, {
       params: {
         limit,

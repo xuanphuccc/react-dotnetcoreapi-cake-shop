@@ -155,7 +155,7 @@ function CartDelivery() {
           longitude: value.value.longitude,
         });
 
-        const distance = response.data?.routes?.car?.distance?.value / 1000 || 0;
+        const distance = response.data?.routes?.motorbike?.distance?.value / 1000 || 0;
 
         const data = {
           address: value.label,

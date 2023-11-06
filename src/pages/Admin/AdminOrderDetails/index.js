@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import orderApi from "@/api/orderApi";
 import dayjs from "dayjs";
 import renderOrderStatus from "@/services/renderOrderStatus";
+import { orderStatusEnum } from "@/enums";
 import currencyConvert from "@/services/currencyConvert";
 
 const cx = classNames.bind(styles);
@@ -24,7 +25,6 @@ function AdminOrderDetails() {
         const response = await orderApi.get(id);
 
         setOrderDetails(response.data?.data ?? {});
-        console.log(response.data);
       } catch (error) {
         console.warn(error);
       }
@@ -36,39 +36,38 @@ function AdminOrderDetails() {
 
   // ----- Handle change order status -----
   const orderStepChange = async (value) => {
-    setLoading(true);
     try {
-      switch (value) {
-        case 0:
-          setLoading(0);
-          break;
-        case 1:
-          const deliveryResponse = await orderApi.delivery(id);
+      if (orderDetails.orderStatusId !== orderStatusEnum.CANCELLED) {
+        setLoading(true);
 
-          console.log(deliveryResponse);
+        switch (value) {
+          case 0:
+            setLoading(false);
+            break;
+          case 1:
+            const deliveryResponse = await orderApi.delivery(id);
 
-          setOrderDetails((prev) => ({
-            ...prev,
-            orderStatus: deliveryResponse.data.data.orderStatus,
-          }));
+            setOrderDetails((prev) => ({
+              ...prev,
+              orderStatusId: deliveryResponse.data.data.orderStatusId,
+            }));
 
-          setLoading(false);
-          break;
-        case 2:
-          const completeResponse = await orderApi.complete(id);
+            setLoading(false);
+            break;
+          case 2:
+            const completeResponse = await orderApi.complete(id);
 
-          console.log(completeResponse);
+            setOrderDetails((prev) => ({
+              ...prev,
+              orderStatusId: completeResponse.data.data.orderStatusId,
+            }));
 
-          setOrderDetails((prev) => ({
-            ...prev,
-            orderStatus: completeResponse.data.data.orderStatus,
-          }));
+            setLoading(false);
+            break;
 
-          setLoading(false);
-          break;
-
-        default:
-          break;
+          default:
+            break;
+        }
       }
     } catch (error) {
       console.warn(error);
@@ -82,14 +81,14 @@ function AdminOrderDetails() {
     setLoading(true);
 
     try {
-      const response = await orderApi.cancel(id);
+      if (orderDetails.orderStatusId !== orderStatusEnum.COMPLETED) {
+        const response = await orderApi.cancel(id);
 
-      console.log(response);
-
-      setOrderDetails((prev) => ({
-        ...prev,
-        orderStatus: response.data.data.orderStatus,
-      }));
+        setOrderDetails((prev) => ({
+          ...prev,
+          orderStatusId: response.data.data.orderStatusId,
+        }));
+      }
 
       setLoading(false);
     } catch (error) {
@@ -101,7 +100,7 @@ function AdminOrderDetails() {
 
   // ----- Handle render order status -----
   const orderStatus = useMemo(() => {
-    return renderOrderStatus(orderDetails.orderStatus);
+    return renderOrderStatus(orderDetails.orderStatusId);
   }, [orderDetails]);
   // ----- End handle render order status -----
 
@@ -136,8 +135,8 @@ function AdminOrderDetails() {
             {/* Card header */}
             <h4 className={cx("card-title", "pb-2")}>
               Đơn hàng{" "}
-              <Tag className={cx("ms-2")} color={orderStatus.color}>
-                {orderStatus.name}
+              <Tag className={cx("ms-2")} color={orderStatus?.color}>
+                {orderStatus?.name}
               </Tag>
             </h4>
             {/* End card header */}
@@ -203,7 +202,7 @@ function AdminOrderDetails() {
             <h4 className={cx("card-title", "pb-2")}>Trạng thái</h4>
             <Spin spinning={loading}>
               <Steps
-                current={orderStatus.step || 0}
+                current={orderStatus?.step || 0}
                 onChange={orderStepChange}
                 items={[{ title: "Tạo đơn hàng" }, { title: "Giao hàng" }, { title: "Hoàn thành" }]}
               />
@@ -214,7 +213,10 @@ function AdminOrderDetails() {
                 <button
                   onClick={handleCancelOrder}
                   className={cx("btn", "btn-modern")}
-                  disabled={orderStatus.status === "cancelled"}
+                  disabled={
+                    orderDetails?.orderStatusId === orderStatusEnum.CANCELLED ||
+                    orderDetails?.orderStatusId === orderStatusEnum.COMPLETED
+                  }
                 >
                   Huỷ đơn hàng
                 </button>

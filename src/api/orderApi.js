@@ -10,7 +10,7 @@ const orderApi = {
       search: null,
     },
   ) {
-    const url = "/orders";
+    const url = "/orders/filter";
     return axiosClient.get(url, {
       params: {
         ...params,

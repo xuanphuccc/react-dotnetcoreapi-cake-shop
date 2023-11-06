@@ -10,7 +10,7 @@ import styles from "./Orders.module.scss";
 import currencyConvert from "@/services/currencyConvert";
 import orderApi from "@/api/orderApi";
 import renderOrderStatus from "@/services/renderOrderStatus";
-import orderStatusApi from "@/api/orderStatusApi";
+import { orderStatus } from "@/enums";
 
 const cx = classNames.bind(styles);
 const { Panel } = Collapse;
@@ -18,7 +18,6 @@ const { Panel } = Collapse;
 function Orders() {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [orderStatuses, setOrderStatuses] = useState([]);
 
   const [queryParams, setQueryParams] = useSearchParams();
   const [allQueryParams, setAllQueryParams] = useState({});
@@ -49,25 +48,11 @@ function Orders() {
         setOrders(response.data?.data ?? []);
         setTotalPages(response.data?.totalPage * 10 || 1);
         setLoading(false);
-
-        console.log(response);
       } catch (error) {
         console.warn(error);
       }
     };
     handleGetAllOrders();
-
-    // Get all order statuses
-    const handleGetAllOrderStatuses = async () => {
-      try {
-        var response = await orderStatusApi.getAll();
-
-        setOrderStatuses(response.data?.data ?? []);
-      } catch (error) {
-        console.warn(error);
-      }
-    };
-    handleGetAllOrderStatuses();
   }, [queryParams]);
 
   // --------- Filter change ---------
@@ -148,7 +133,7 @@ function Orders() {
                     <Panel header="Trạng thái" key="1">
                       <Radio.Group onChange={handleStatusParamChange}>
                         <Space size="small" direction="vertical">
-                          {orderStatuses.map((status) => (
+                          {orderStatus.map((status) => (
                             <Radio key={status.orderStatusId} value={status.orderStatusId}>
                               {status.name}
                             </Radio>
@@ -209,8 +194,8 @@ function Orders() {
                     <td>{order.customerName}</td>
                     <td>{order.customerPhoneNumber}</td>
                     <td>
-                      <Tag color={renderOrderStatus(order.orderStatus).color}>
-                        {renderOrderStatus(order.orderStatus).name}
+                      <Tag color={renderOrderStatus(order.orderStatusId).color}>
+                        {renderOrderStatus(order.orderStatusId).name}
                       </Tag>
                     </td>
                     <td>{currencyConvert(order.orderTotal)}</td>

@@ -1,33 +1,7 @@
-const renderOrderStatus = (status = { name: "", status: "" }) => {
-  const result = {
-    ...status,
-    color: "blue",
-    step: 0,
-  };
+import { orderStatus } from "@/enums";
 
-  switch (status.status) {
-    case "created":
-      result.color = "orange";
-      result.step = 0;
-      break;
-
-    case "delivery":
-      result.color = "blue";
-      result.step = 1;
-      break;
-
-    case "completed":
-      result.color = "cyan";
-      result.step = 2;
-      break;
-
-    case "cancelled":
-      result.color = "default";
-      break;
-
-    default:
-      break;
-  }
+const renderOrderStatus = (orderStatusId) => {
+  const result = orderStatus.find((os) => os.orderStatusId === orderStatusId);
 
   return result;
 };

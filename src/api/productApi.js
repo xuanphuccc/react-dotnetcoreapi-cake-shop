@@ -10,7 +10,7 @@ const productApi = {
       search: null,
     },
   ) {
-    const url = "/products";
+    const url = "/products/filter";
     return axiosClient.get(url, {
       params: {
         ...params,

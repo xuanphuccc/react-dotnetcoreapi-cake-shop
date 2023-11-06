@@ -48,10 +48,7 @@ function ProductEdit() {
     const handleGetAllCategories = async () => {
       try {
         const response = await categoryApi.getAll();
-
         const categories = response.data?.data;
-
-        console.log(categories);
 
         setAllCategories(
           categories?.map((item) => ({

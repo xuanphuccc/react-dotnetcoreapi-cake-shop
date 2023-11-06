@@ -16,7 +16,7 @@ const mapApi = {
     const defaultLocation = process.env["REACT_APP_DEFAULT_LOCATION"];
     const url =
       `https://api.radar.io/v1/route/distance?origin=${defaultLocation}` +
-      `&destination=${location.latitude},${location.longitude}&modes=car&units=metric`;
+      `&destination=${location.latitude},${location.longitude}&modes=motorbike&units=metric`;
 
     return axios.get(url, {
       headers: {

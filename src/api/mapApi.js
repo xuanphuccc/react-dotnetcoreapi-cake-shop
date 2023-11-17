@@ -3,7 +3,7 @@ import axios from "axios";
 const mapApi = {
   searchAutocomplete(query = "") {
     const defaultLocation = process.env["REACT_APP_DEFAULT_LOCATION"];
-    const url = `https://api.radar.io/v1/search/autocomplete?query=${query}&near=${defaultLocation}&limit=5&country=vn`;
+    const url = `https://api.radar.io/v1/search/autocomplete?query=${query}&near=${defaultLocation}&limit=5&country=VN`;
 
     return axios.get(url, {
       headers: {

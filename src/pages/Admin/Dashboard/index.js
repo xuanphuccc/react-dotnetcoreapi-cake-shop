@@ -2,10 +2,38 @@ import classNames from "classnames/bind";
 import styles from "./Dashboard.module.scss";
 import { Col, Row } from "antd";
 import * as Unicons from "@iconscout/react-unicons";
+import { useEffect, useState } from "react";
+import reportsApi from "@/api/reportsApi";
 
 const cx = classNames.bind(styles);
 
 function Dashboard() {
+  const [reportData, setReportData] = useState({
+    totalOrders: 0,
+    totalRevenue: 0,
+    totalCustomers: 0,
+  });
+
+  useEffect(() => {
+    // Get all orders
+    const handleGetData = async () => {
+      try {
+        const orderResponse = await reportsApi.getTotalOrders();
+        const revenueResponse = await reportsApi.getTotalRevenue();
+        const customerResponse = await reportsApi.getTotalCustomers();
+
+        setReportData({
+          totalOrders: orderResponse.data,
+          totalRevenue: revenueResponse.data,
+          totalCustomers: customerResponse.data,
+        });
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+    handleGetData();
+  }, []);
+
   return (
     <div>
       <h1 className={cx("font-primary", "fw-700", "pb-5")}>Tổng quan</h1>
@@ -19,7 +47,7 @@ function Dashboard() {
               </span>
               <p className={cx("fs-16", "fw-600", "font-primary")}>Đơn đã bán</p>
             </div>
-            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>20</div>
+            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>{reportData.totalOrders}</div>
             <p className={cx("d-flex", "align-items-center")}>
               <span className={cx("me-1")}>
                 <Unicons.UilArrowGrowth size="14" />
@@ -36,7 +64,7 @@ function Dashboard() {
               </span>
               <p className={cx("fs-16", "fw-600", "font-primary")}>Doanh thu</p>
             </div>
-            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>20.99M</div>
+            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>{reportData.totalRevenue}M</div>
             <p className={cx("d-flex", "align-items-center")}>
               <span className={cx("me-1")}>
                 <Unicons.UilArrowGrowth size="14" />
@@ -53,7 +81,7 @@ function Dashboard() {
               </span>
               <p className={cx("fs-16", "fw-600", "font-primary")}>Khách hàng</p>
             </div>
-            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>20</div>
+            <div className={cx("fs-36", "fw-600", "font-primary", "pt-1")}>{reportData.totalCustomers}</div>
             <p className={cx("d-flex", "align-items-center")}>
               <span className={cx("me-1")}>
                 <Unicons.UilArrowGrowth size="14" />

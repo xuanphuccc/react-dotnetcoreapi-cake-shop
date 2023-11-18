@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./ProductEdit.module.scss";
-import { Breadcrumb, Button, Col, Divider, Image, Input, Radio, Row, Select, Spin } from "antd";
+import { Breadcrumb, Button, Col, Divider, Image, Input, Radio, Row, Select, Spin, Popconfirm } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Unicons from "@iconscout/react-unicons";
 import TextEditor from "@/components/TextEditor";
@@ -552,13 +552,22 @@ function ProductEdit() {
                       <button onClick={handleUpdateProduct} className={cx("btn", "btn-modern", "btn-dark")}>
                         Cập nhật
                       </button>
-                      <button
-                        onClick={handleDeleteProduct}
-                        className={cx("btn", "btn-modern", "btn-warning")}
+                      <Popconfirm
+                        title="Xoá sản phẩm"
+                        description="Bạn có chắc chắn muốn xoá sản phẩm"
+                        onConfirm={handleDeleteProduct}
+                        okText="Đồng ý"
+                        cancelText="Hủy"
                         disabled={productHasOrders > 0}
                       >
-                        Xoá
-                      </button>
+                        <button
+                          onClick={(e) => e.preventDefault()}
+                          className={cx("btn", "btn-modern", "btn-warning")}
+                          disabled={productHasOrders > 0}
+                        >
+                          Xoá
+                        </button>
+                      </Popconfirm>
                     </>
                   ) : (
                     <button onClick={handleCreateProduct} className={cx("btn", "btn-modern", "btn-dark")}>

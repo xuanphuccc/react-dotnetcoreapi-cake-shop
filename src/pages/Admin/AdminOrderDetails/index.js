@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./OrderDetails.module.scss";
-import { Breadcrumb, Col, Divider, Row, Spin, Steps, Tag } from "antd";
+import { Breadcrumb, Col, Divider, Row, Spin, Steps, Tag, Popconfirm } from "antd";
 import { Link, useParams } from "react-router-dom";
 import images from "@/assets/images";
 import { useEffect, useMemo, useState } from "react";
@@ -210,16 +210,28 @@ function AdminOrderDetails() {
               <Divider className={cx("my-4")} />
 
               <div className={cx("d-flex", "justify-start")}>
-                <button
-                  onClick={handleCancelOrder}
-                  className={cx("btn", "btn-modern")}
+                <Popconfirm
+                  title="Huỷ đơn hàng"
+                  description="Bạn có chắc chắn muốn huỷ đơn hàng"
+                  onConfirm={handleCancelOrder}
+                  okText="Đồng ý"
+                  cancelText="Hủy"
                   disabled={
                     orderDetails?.orderStatusId === orderStatusEnum.CANCELLED ||
                     orderDetails?.orderStatusId === orderStatusEnum.COMPLETED
                   }
                 >
-                  Huỷ đơn hàng
-                </button>
+                  <button
+                    onClick={(e) => e.preventDefault()}
+                    className={cx("btn", "btn-modern")}
+                    disabled={
+                      orderDetails?.orderStatusId === orderStatusEnum.CANCELLED ||
+                      orderDetails?.orderStatusId === orderStatusEnum.COMPLETED
+                    }
+                  >
+                    Huỷ đơn hàng
+                  </button>
+                </Popconfirm>
               </div>
             </Spin>
           </div>

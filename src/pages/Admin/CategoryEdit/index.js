@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./CategoryEdit.module.scss";
-import { Breadcrumb, Button, Col, Image, Input, Row, Spin } from "antd";
+import { Breadcrumb, Button, Col, Image, Input, Row, Spin, Popconfirm } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Unicons from "@iconscout/react-unicons";
 import TextEditor from "@/components/TextEditor";
@@ -322,13 +322,17 @@ function CategoryEdit() {
                       <button onClick={handleUpdateCategory} className={cx("btn", "btn-modern", "btn-dark")}>
                         Cập nhật
                       </button>
-                      <button
-                        onClick={handleDeleteCategory}
-                        className={cx("btn", "btn-modern", "btn-warning")}
-                        title="Nhấn hai lần để xoá"
+                      <Popconfirm
+                        title="Xoá danh mục"
+                        description="Bạn có chắc chắn muốn xoá danh mục"
+                        onConfirm={handleDeleteCategory}
+                        okText="Đồng ý"
+                        cancelText="Hủy"
                       >
-                        Xoá
-                      </button>
+                        <button onClick={(e) => e.preventDefault()} className={cx("btn", "btn-modern", "btn-warning")}>
+                          Xoá
+                        </button>
+                      </Popconfirm>
                     </>
                   ) : (
                     <button onClick={handleCreateCategory} className={cx("btn", "btn-modern", "btn-dark")}>

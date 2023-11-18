@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./ShippingMethodEdit.module.scss";
-import { Breadcrumb, Button, Col, Image, Input, Radio, Row, Spin } from "antd";
+import { Breadcrumb, Button, Col, Image, Input, Radio, Row, Spin, Popconfirm } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Unicons from "@iconscout/react-unicons";
 import images from "@/assets/images";
@@ -393,9 +393,17 @@ function ShippingMethodEdit() {
                       <button onClick={handleUpdateShippingMethod} className={cx("btn", "btn-modern", "btn-dark")}>
                         Cập nhật
                       </button>
-                      <button onClick={handleDeleteShippingMethod} className={cx("btn", "btn-modern", "btn-warning")}>
-                        Xoá
-                      </button>
+                      <Popconfirm
+                        title="Xoá đơn vị vận chuyển"
+                        description="Bạn có chắc chắn muốn xoá đơn vị vận chuyển"
+                        onConfirm={handleDeleteShippingMethod}
+                        okText="Đồng ý"
+                        cancelText="Hủy"
+                      >
+                        <button onClick={(e) => e.preventDefault()} className={cx("btn", "btn-modern", "btn-warning")}>
+                          Xoá
+                        </button>
+                      </Popconfirm>
                     </>
                   ) : (
                     <button onClick={handleCreateShippingMethod} className={cx("btn", "btn-modern", "btn-dark")}>

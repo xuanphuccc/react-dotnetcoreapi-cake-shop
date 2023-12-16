@@ -45,12 +45,14 @@ function AdminOrderDetails() {
             setLoading(false);
             break;
           case 1:
-            const deliveryResponse = await orderApi.delivery(id);
+            if (orderDetails.orderStatusId !== orderStatusEnum.COMPLETED) {
+              const deliveryResponse = await orderApi.delivery(id);
 
-            setOrderDetails((prev) => ({
-              ...prev,
-              orderStatusId: deliveryResponse.data.data.orderStatusId,
-            }));
+              setOrderDetails((prev) => ({
+                ...prev,
+                orderStatusId: deliveryResponse.data.data.orderStatusId,
+              }));
+            }
 
             setLoading(false);
             break;
